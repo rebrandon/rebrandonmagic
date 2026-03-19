@@ -381,3 +381,10 @@ blockquote {
     text-decoration: none;
     font-weight: 500;
 }
+/* Add this to style.css */
+.flavor-text {
+    font-size: 0.75rem;
+    font-style: italic;
+    color: #888;
+    margin-top: 2px;
+}
