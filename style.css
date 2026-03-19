@@ -156,3 +156,75 @@ blockquote {
 .back-link:hover {
     text-decoration: underline;
 }
+/* Deck Tech Specific Styles */
+.deck-stats {
+    display: flex;
+    gap: 30px;
+    margin-top: 10px;
+    padding: 10px;
+    background: #252525;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: var(--accent);
+}
+
+.deck-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+    .deck-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card-list h4 {
+    color: var(--text-main);
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.card-list ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+.card-list li {
+    padding: 3px 0;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.card-list li:hover {
+    color: var(--accent);
+    background: #1a1a1a;
+}
+
+/* Sidebar Boxes */
+.synergy-box {
+    background: #1a1a1a;
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.synergy-box h4 {
+    margin-top: 0;
+    color: var(--accent);
+    font-size: 1rem;
+}
+
+.synergy-box p {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
