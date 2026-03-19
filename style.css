@@ -101,3 +101,58 @@ footer {
     font-size: 0.9rem;
     color: var(--text-muted);
 }
+/* Article Page Specific Styles */
+.article-page {
+    padding: 40px 20px;
+    max-width: 800px; /* Slightly narrower for better readability */
+}
+
+.post-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 20px;
+}
+
+.post-meta {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.lead {
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: 25px;
+}
+
+.post-content h3 {
+    margin-top: 40px;
+    color: var(--accent);
+    border-left: 3px solid var(--mana-red);
+    padding-left: 15px;
+}
+
+blockquote {
+    border-left: 4px solid var(--accent);
+    margin: 30px 0;
+    padding: 10px 20px;
+    background: #252525;
+    font-style: italic;
+    color: #ddd;
+}
+
+.post-footer {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+}
+
+.back-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
