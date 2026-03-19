@@ -228,3 +228,72 @@ blockquote {
     font-size: 0.9rem;
     margin-bottom: 0;
 }
+/* The Stack Styling */
+.stack-container {
+    display: flex;
+    flex-direction: column;
+    gap: -10px; /* Slight overlap for that MTG stack feel */
+}
+
+.stack-item {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    transition: transform 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.stack-item:hover {
+    transform: translateX(10px);
+    border-color: var(--accent);
+}
+
+.status-tag {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.resolving { border-left: 5px solid #4caf50; } /* Green for active */
+.resolving .status-tag { background: #4caf50; color: white; }
+
+.waiting { border-left: 5px solid #ff9800; } /* Orange for pending */
+.waiting .status-tag { background: #ff9800; color: white; }
+
+.resolved { border-left: 5px solid var(--accent); opacity: 0.8; }
+.resolved .status-tag { background: var(--accent); color: black; }
+
+/* Video Responsiveness */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border: 2px solid var(--accent);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.accent-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--accent);
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-top: 10px;
+}
