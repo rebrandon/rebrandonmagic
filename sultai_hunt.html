@@ -1,0 +1,282 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sultai Maralen Bulk Hunt</title>
+        <style>
+            body { background: #0b0f0b; color: #d1d1d1; font-family: -apple-system, sans-serif; margin: 0; padding-top: 80px; }
+            .sticky-header { position: fixed; top: 0; width: 100%; background: #1a1f1a; padding: 15px; box-sizing: border-box; z-index: 1000; border-bottom: 2px solid #2e3b2e; }
+            input { width: 100%; padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; }
+            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+            .card { background: #161a16; border-radius: 12px; overflow: hidden; border: 1px solid #333; transition: opacity 0.3s; position: relative; }
+            .card.found { opacity: 0.3; filter: grayscale(100%); }
+            img { width: 100%; display: block; }
+            .info { padding: 8px; font-size: 11px; text-align: center; }
+            .check-btn { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.7); border: 1px solid #555; border-radius: 4px; padding: 5px; color: #fff; cursor: pointer; }
+        </style>
+    </head>
+    <body>
+        <div class="sticky-header">
+            <input type="text" id="search" placeholder="Search by name or set..." oninput="filterCards()">
+        </div>
+        <div class="grid" id="cardGrid">
+            
+            <div class="card" data-info="Maraleaf Pixie Throne of Eldraine">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/e/6/e6d7f9c9-dd83-4684-a949-1c22f316138a.jpg?1572490787" alt="Maraleaf Pixie">
+                <div class="info"><strong>Maraleaf Pixie</strong><br>Throne of Eldraine</div>
+            </div>
+            
+            <div class="card" data-info="Spellstutter Sprite Modern Masters">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/3/8/3899605d-2203-4ab6-9ff5-69490382eea4.jpg?1561966876" alt="Spellstutter Sprite">
+                <div class="info"><strong>Spellstutter Sprite</strong><br>Modern Masters</div>
+            </div>
+            
+            <div class="card" data-info="Faerie Seer Modern Horizons">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/d/1/d1fcfeb4-1818-4e08-be4c-27b8a9dc12e6.jpg?1562201375" alt="Faerie Seer">
+                <div class="info"><strong>Faerie Seer</strong><br>Modern Horizons</div>
+            </div>
+            
+            <div class="card" data-info="Faerie Miscreant Core Set 2020">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/2/8/28aa0337-94bd-4274-b2ee-6f43747c77b3.jpg?1592516372" alt="Faerie Miscreant">
+                <div class="info"><strong>Faerie Miscreant</strong><br>Core Set 2020</div>
+            </div>
+            
+            <div class="card" data-info="Nightveil Sprite Murders at Karlov Manor Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/8/2/82f806fe-3970-4ae2-b232-d99002d46062.jpg?1706240719" alt="Nightveil Sprite">
+                <div class="info"><strong>Nightveil Sprite</strong><br>Murders at Karlov Manor Commander</div>
+            </div>
+            
+            <div class="card" data-info="Hypnotic Sprite Throne of Eldraine">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/7/a/7acbd812-b994-4e68-8f95-04222796e994.jpg?1572489901" alt="Hypnotic Sprite">
+                <div class="info"><strong>Hypnotic Sprite</strong><br>Throne of Eldraine</div>
+            </div>
+            
+            <div class="card" data-info="Quickling Magic 2015">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/2/7/278fbdb9-51e3-4ed6-bcc5-c5b86f06c216.jpg?1562784199" alt="Quickling">
+                <div class="info"><strong>Quickling</strong><br>Magic 2015</div>
+            </div>
+            
+            <div class="card" data-info="Oona's Blackguard Zendikar Rising Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/4/6/4677d5d1-de04-4631-8fcf-5ff754d701b1.jpg?1604193428" alt="Oona's Blackguard">
+                <div class="info"><strong>Oona's Blackguard</strong><br>Zendikar Rising Commander</div>
+            </div>
+            
+            <div class="card" data-info="Thieving Sprite Modern Masters">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/2/4/244d864d-fc74-4147-aca6-d0498691b1a9.jpg?1561966417" alt="Thieving Sprite">
+                <div class="info"><strong>Thieving Sprite</strong><br>Modern Masters</div>
+            </div>
+            
+            <div class="card" data-info="Marsh Flitter Zendikar Rising Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/6/4/64da2ec1-fca9-4488-8ac7-78d645a8bf62.jpg?1604193244" alt="Marsh Flitter">
+                <div class="info"><strong>Marsh Flitter</strong><br>Zendikar Rising Commander</div>
+            </div>
+            
+            <div class="card" data-info="Flitterwing Nuisance Lorwyn Eclipsed">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/a/d/ad0f6536-5295-4835-8883-35d711dfe6de.jpg?1767862448" alt="Flitterwing Nuisance">
+                <div class="info"><strong>Flitterwing Nuisance</strong><br>Lorwyn Eclipsed</div>
+            </div>
+            
+            <div class="card" data-info="Llanowar Elves Foundations">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/6/a/6a0b230b-d391-4998-a3f7-7b158a0ec2cd.jpg?1731652605" alt="Llanowar Elves">
+                <div class="info"><strong>Llanowar Elves</strong><br>Foundations</div>
+            </div>
+            
+            <div class="card" data-info="Elvish Mystic Commander Masters">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/7/5/75918859-c93f-41b4-9ad0-a4a96c389f0d.jpg?1689998466" alt="Elvish Mystic">
+                <div class="info"><strong>Elvish Mystic</strong><br>Commander Masters</div>
+            </div>
+            
+            <div class="card" data-info="Fyndhorn Elves Commander Legends">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/4/5/450744cf-7eba-491b-97b0-ca80c6368bbb.jpg?1608910653" alt="Fyndhorn Elves">
+                <div class="info"><strong>Fyndhorn Elves</strong><br>Commander Legends</div>
+            </div>
+            
+            <div class="card" data-info="Wood Elves March of the Machine Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/5/2/527cf39d-29d1-4c19-9c49-ebf611ca15d5.jpg?1682209656" alt="Wood Elves">
+                <div class="info"><strong>Wood Elves</strong><br>March of the Machine Commander</div>
+            </div>
+            
+            <div class="card" data-info="Reclamation Sage Foundations">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/1/9/1918ea65-ab7f-4d40-97fd-a656c892a2a1.jpg?1730489462" alt="Reclamation Sage">
+                <div class="info"><strong>Reclamation Sage</strong><br>Foundations</div>
+            </div>
+            
+            <div class="card" data-info="Elvish Visionary Commander Legends">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/a/2/a2f174e6-9532-4fc3-815b-2dc3966c6523.jpg?1608910606" alt="Elvish Visionary">
+                <div class="info"><strong>Elvish Visionary</strong><br>Commander Legends</div>
+            </div>
+            
+            <div class="card" data-info="Priest of Titania Modern Horizons 3">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/e/b/eb11921b-1b28-483f-a707-4de21a6daa31.jpg?1717013714" alt="Priest of Titania">
+                <div class="info"><strong>Priest of Titania</strong><br>Modern Horizons 3</div>
+            </div>
+            
+            <div class="card" data-info="Farhaven Elf Kaldheim Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/3/2/320d0a4c-c556-4468-b934-bfdf17961a53.jpg?1631234906" alt="Farhaven Elf">
+                <div class="info"><strong>Farhaven Elf</strong><br>Kaldheim Commander</div>
+            </div>
+            
+            <div class="card" data-info="Elves of Deep Shadow Duel Decks: Izzet vs. Golgari">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/6/0/6040ba5e-7042-4095-9000-89bcb8ce1ea6.jpg?1592713613" alt="Elves of Deep Shadow">
+                <div class="info"><strong>Elves of Deep Shadow</strong><br>Duel Decks: Izzet vs. Golgari</div>
+            </div>
+            
+            <div class="card" data-info="Miara, Thorn of the Glade Kaldheim Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/7/b/7bdb9bfe-5e56-429d-af23-7548532e2406.jpg?1631234662" alt="Miara, Thorn of the Glade">
+                <div class="info"><strong>Miara, Thorn of the Glade</strong><br>Kaldheim Commander</div>
+            </div>
+            
+            <div class="card" data-info="Nadier's Nightblade Modern Horizons 3">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/b/c/bc9926d7-91b7-4067-b590-a0430bf68d16.jpg?1717047445" alt="Nadier's Nightblade">
+                <div class="info"><strong>Nadier's Nightblade</strong><br>Modern Horizons 3</div>
+            </div>
+            
+            <div class="card" data-info="Skemfar Shadowsage Kaldheim">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/c/2/c204130f-0483-49ed-8512-03a74894702e.jpg?1631048543" alt="Skemfar Shadowsage">
+                <div class="info"><strong>Skemfar Shadowsage</strong><br>Kaldheim</div>
+            </div>
+            
+            <div class="card" data-info="Elderfang Disciple Kaldheim">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/7/f/7f3a6148-d005-49c1-a7fc-867c4e8251cd.jpg?1631048063" alt="Elderfang Disciple">
+                <div class="info"><strong>Elderfang Disciple</strong><br>Kaldheim</div>
+            </div>
+            
+            <div class="card" data-info="Exquisite Huntmaster Commander Legends">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/4/4/444b75d9-f7c7-4a13-9318-02d7bbd80c9c.jpg?1616447012" alt="Exquisite Huntmaster">
+                <div class="info"><strong>Exquisite Huntmaster</strong><br>Commander Legends</div>
+            </div>
+            
+            <div class="card" data-info="Lys Alana Huntmaster Kaldheim Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/0/8/0849f67b-da5d-49f7-840f-f87f48518156.jpg?1631235019" alt="Lys Alana Huntmaster">
+                <div class="info"><strong>Lys Alana Huntmaster</strong><br>Kaldheim Commander</div>
+            </div>
+            
+            <div class="card" data-info="Imperious Perfect Foundations">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/8/3/83b4a09f-ea53-42b4-a41a-4299192a6fd3.jpg?1730572769" alt="Imperious Perfect">
+                <div class="info"><strong>Imperious Perfect</strong><br>Foundations</div>
+            </div>
+            
+            <div class="card" data-info="Sultai Charm Dominaria United Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/7/2/72af6c1f-33a0-4e02-95b7-74ecaa6a6d87.jpg?1673305662" alt="Sultai Charm">
+                <div class="info"><strong>Sultai Charm</strong><br>Dominaria United Commander</div>
+            </div>
+            
+            <div class="card" data-info="Growth Spiral Duskmourn: House of Horror Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/1/e/1e10e2b4-9639-41ae-8b8e-253224d3d513.jpg?1726284492" alt="Growth Spiral">
+                <div class="info"><strong>Growth Spiral</strong><br>Duskmourn: House of Horror Commander</div>
+            </div>
+            
+            <div class="card" data-info="Putrefy Lorwyn Eclipsed Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/a/d/ad6ed9f1-2014-49e2-91c6-2b55c8d60cdc.jpg?1767731378" alt="Putrefy">
+                <div class="info"><strong>Putrefy</strong><br>Lorwyn Eclipsed Commander</div>
+            </div>
+            
+            <div class="card" data-info="Mortality Spear Strixhaven: School of Mages">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/f/1/f1f39fe7-dc12-49c9-80ac-4135dc1f8f08.jpg?1627429727" alt="Mortality Spear">
+                <div class="info"><strong>Mortality Spear</strong><br>Strixhaven: School of Mages</div>
+            </div>
+            
+            <div class="card" data-info="Arcane Denial Duskmourn: House of Horror Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/9/b/9b3f47a9-65fb-4b53-8e52-1c4b678b5841.jpg?1726284627" alt="Arcane Denial">
+                <div class="info"><strong>Arcane Denial</strong><br>Duskmourn: House of Horror Commander</div>
+            </div>
+            
+            <div class="card" data-info="Counterspell Duskmourn: House of Horror Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/4/f/4f616706-ec97-4923-bb1e-11a69fbaa1f8.jpg?1751282477" alt="Counterspell">
+                <div class="info"><strong>Counterspell</strong><br>Duskmourn: House of Horror Commander</div>
+            </div>
+            
+            <div class="card" data-info="Negate Teenage Mutant Ninja Turtles">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/5/2/52d58fe4-6070-4022-9cd7-c35a11b44525.jpg?1771342360" alt="Negate">
+                <div class="info"><strong>Negate</strong><br>Teenage Mutant Ninja Turtles</div>
+            </div>
+            
+            <div class="card" data-info="Cultivate Teenage Mutant Ninja Turtles Eternal">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/4/8/4824ad7c-e533-4357-b486-9e908721db65.jpg?1771424445" alt="Cultivate">
+                <div class="info"><strong>Cultivate</strong><br>Teenage Mutant Ninja Turtles Eternal</div>
+            </div>
+            
+            <div class="card" data-info="Rampant Growth Tarkir: Dragonstorm Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/b/7/b7c47024-5e08-4b17-b41a-7647f8b814b9.jpg?1743206981" alt="Rampant Growth">
+                <div class="info"><strong>Rampant Growth</strong><br>Tarkir: Dragonstorm Commander</div>
+            </div>
+            
+            <div class="card" data-info="Feed the Swarm Tarkir: Dragonstorm Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/a/7/a776f96b-01bf-430a-b1ad-9f4651070610.jpg?1743206491" alt="Feed the Swarm">
+                <div class="info"><strong>Feed the Swarm</strong><br>Tarkir: Dragonstorm Commander</div>
+            </div>
+            
+            <div class="card" data-info="Morcant's Loyalist Lorwyn Eclipsed">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/1/7/175c6b1c-8790-41a2-ae15-5031206c410f.jpg?1767952302" alt="Morcant's Loyalist">
+                <div class="info"><strong>Morcant's Loyalist</strong><br>Lorwyn Eclipsed</div>
+            </div>
+            
+            <div class="card" data-info="Chomping Changeling Lorwyn Eclipsed">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/e/1/e187dcc6-19ad-4cf6-94b4-daf07f5144e5.jpg?1767658367" alt="Chomping Changeling">
+                <div class="info"><strong>Chomping Changeling</strong><br>Lorwyn Eclipsed</div>
+            </div>
+            
+            <div class="card" data-info="Bojuka Bog Edge of Eternities Commander">
+                <button class="check-btn" onclick="toggleFound(this)">GOT IT</button>
+                <img src="https://cards.scryfall.io/normal/front/b/0/b0c6fb5e-07e2-4d22-be19-60592f00584a.jpg?1752945235" alt="Bojuka Bog">
+                <div class="info"><strong>Bojuka Bog</strong><br>Edge of Eternities Commander</div>
+            </div>
+            
+        </div>
+        <script>
+            function filterCards() {
+                let q = document.getElementById('search').value.toLowerCase();
+                document.querySelectorAll('.card').forEach(card => {
+                    card.style.display = card.dataset.info.toLowerCase().includes(q) ? 'block' : 'none';
+                });
+            }
+            function toggleFound(btn) {
+                let card = btn.parentElement;
+                card.classList.toggle('found');
+                btn.innerText = card.classList.contains('found') ? '✓' : 'GOT IT';
+            }
+        </script>
+    </body>
+    </html>
+    
