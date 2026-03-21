@@ -1,0 +1,302 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sultai Maralen Hunt</title>
+        <style>
+            body { background: #0b0f0b; color: #d1d1d1; font-family: sans-serif; margin: 0; padding-top: 60px; }
+
+            /* Sticky Search Bar */
+            .header { position: fixed; top: 0; width: 100%; background: #1a1f1a; padding: 10px; box-sizing: border-box; z-index: 1000; border-bottom: 1px solid #333; }
+            input { width: 100%; padding: 10px; font-size: 16px; border-radius: 6px; border: 1px solid #444; background: #222; color: #fff; }
+
+            /* 3-Column Grid for smaller images */
+            .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 5px; }
+
+            .card { background: #161a16; border-radius: 4px; overflow: hidden; border: 1px solid #333; position: relative; }
+            .card.found { opacity: 0.2; filter: grayscale(100%); }
+            img { width: 100%; display: block; cursor: pointer; }
+
+            .info { padding: 4px; font-size: 9px; text-align: center; color: #888; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+
+            /* Checkbox Overlay */
+            .check-btn { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.8); border: 1px solid #555; border-radius: 3px; padding: 2px 4px; color: #fff; font-size: 10px; cursor: pointer; z-index: 10; }
+
+            /* Tap-to-Zoom Modal */
+            #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
+            #modal img { width: 90%; max-width: 400px; height: auto; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <input type="text" id="search" placeholder="Search..." oninput="filterCards()">
+        </div>
+
+        <div id="modal" onclick="this.style.display='none'">
+            <img id="modalImg" src="">
+        </div>
+
+        <div class="grid" id="cardGrid">
+            
+            <div class="card" data-info="Maraleaf Pixie ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/e/6/e6d7f9c9-dd83-4684-a949-1c22f316138a.jpg?1572490787" alt="Maraleaf Pixie" onclick="zoomImage(this.src)">
+                <div class="info"> | Maraleaf Pixie</div>
+            </div>
+            
+            <div class="card" data-info="Spellstutter Sprite ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/3/8/3899605d-2203-4ab6-9ff5-69490382eea4.jpg?1561966876" alt="Spellstutter Sprite" onclick="zoomImage(this.src)">
+                <div class="info"> | Spellstutter Sprite</div>
+            </div>
+            
+            <div class="card" data-info="Faerie Seer ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/d/1/d1fcfeb4-1818-4e08-be4c-27b8a9dc12e6.jpg?1562201375" alt="Faerie Seer" onclick="zoomImage(this.src)">
+                <div class="info"> | Faerie Seer</div>
+            </div>
+            
+            <div class="card" data-info="Faerie Miscreant ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/2/8/28aa0337-94bd-4274-b2ee-6f43747c77b3.jpg?1592516372" alt="Faerie Miscreant" onclick="zoomImage(this.src)">
+                <div class="info"> | Faerie Miscreant</div>
+            </div>
+            
+            <div class="card" data-info="Nightveil Sprite ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/8/2/82f806fe-3970-4ae2-b232-d99002d46062.jpg?1706240719" alt="Nightveil Sprite" onclick="zoomImage(this.src)">
+                <div class="info"> | Nightveil Sprite</div>
+            </div>
+            
+            <div class="card" data-info="Hypnotic Sprite ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/7/a/7acbd812-b994-4e68-8f95-04222796e994.jpg?1572489901" alt="Hypnotic Sprite" onclick="zoomImage(this.src)">
+                <div class="info"> | Hypnotic Sprite</div>
+            </div>
+            
+            <div class="card" data-info="Quickling ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/2/7/278fbdb9-51e3-4ed6-bcc5-c5b86f06c216.jpg?1562784199" alt="Quickling" onclick="zoomImage(this.src)">
+                <div class="info"> | Quickling</div>
+            </div>
+            
+            <div class="card" data-info="Oona's Blackguard ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/4/6/4677d5d1-de04-4631-8fcf-5ff754d701b1.jpg?1604193428" alt="Oona's Blackguard" onclick="zoomImage(this.src)">
+                <div class="info"> | Oona's Blackguard</div>
+            </div>
+            
+            <div class="card" data-info="Thieving Sprite ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/2/4/244d864d-fc74-4147-aca6-d0498691b1a9.jpg?1561966417" alt="Thieving Sprite" onclick="zoomImage(this.src)">
+                <div class="info"> | Thieving Sprite</div>
+            </div>
+            
+            <div class="card" data-info="Marsh Flitter ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/6/4/64da2ec1-fca9-4488-8ac7-78d645a8bf62.jpg?1604193244" alt="Marsh Flitter" onclick="zoomImage(this.src)">
+                <div class="info"> | Marsh Flitter</div>
+            </div>
+            
+            <div class="card" data-info="Flitterwing Nuisance ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/a/d/ad0f6536-5295-4835-8883-35d711dfe6de.jpg?1767862448" alt="Flitterwing Nuisance" onclick="zoomImage(this.src)">
+                <div class="info"> | Flitterwing Nuisance</div>
+            </div>
+            
+            <div class="card" data-info="Llanowar Elves ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/6/a/6a0b230b-d391-4998-a3f7-7b158a0ec2cd.jpg?1731652605" alt="Llanowar Elves" onclick="zoomImage(this.src)">
+                <div class="info"> | Llanowar Elves</div>
+            </div>
+            
+            <div class="card" data-info="Elvish Mystic ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/7/5/75918859-c93f-41b4-9ad0-a4a96c389f0d.jpg?1689998466" alt="Elvish Mystic" onclick="zoomImage(this.src)">
+                <div class="info"> | Elvish Mystic</div>
+            </div>
+            
+            <div class="card" data-info="Fyndhorn Elves ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/4/5/450744cf-7eba-491b-97b0-ca80c6368bbb.jpg?1608910653" alt="Fyndhorn Elves" onclick="zoomImage(this.src)">
+                <div class="info"> | Fyndhorn Elves</div>
+            </div>
+            
+            <div class="card" data-info="Wood Elves ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/5/2/527cf39d-29d1-4c19-9c49-ebf611ca15d5.jpg?1682209656" alt="Wood Elves" onclick="zoomImage(this.src)">
+                <div class="info"> | Wood Elves</div>
+            </div>
+            
+            <div class="card" data-info="Reclamation Sage ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/1/9/1918ea65-ab7f-4d40-97fd-a656c892a2a1.jpg?1730489462" alt="Reclamation Sage" onclick="zoomImage(this.src)">
+                <div class="info"> | Reclamation Sage</div>
+            </div>
+            
+            <div class="card" data-info="Elvish Visionary ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/a/2/a2f174e6-9532-4fc3-815b-2dc3966c6523.jpg?1608910606" alt="Elvish Visionary" onclick="zoomImage(this.src)">
+                <div class="info"> | Elvish Visionary</div>
+            </div>
+            
+            <div class="card" data-info="Priest of Titania ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/e/b/eb11921b-1b28-483f-a707-4de21a6daa31.jpg?1717013714" alt="Priest of Titania" onclick="zoomImage(this.src)">
+                <div class="info"> | Priest of Titania</div>
+            </div>
+            
+            <div class="card" data-info="Farhaven Elf ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/3/2/320d0a4c-c556-4468-b934-bfdf17961a53.jpg?1631234906" alt="Farhaven Elf" onclick="zoomImage(this.src)">
+                <div class="info"> | Farhaven Elf</div>
+            </div>
+            
+            <div class="card" data-info="Elves of Deep Shadow ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/6/0/6040ba5e-7042-4095-9000-89bcb8ce1ea6.jpg?1592713613" alt="Elves of Deep Shadow" onclick="zoomImage(this.src)">
+                <div class="info"> | Elves of Deep Shadow</div>
+            </div>
+            
+            <div class="card" data-info="Miara, Thorn of the Glade ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/7/b/7bdb9bfe-5e56-429d-af23-7548532e2406.jpg?1631234662" alt="Miara, Thorn of the Glade" onclick="zoomImage(this.src)">
+                <div class="info"> | Miara, Thorn of the Glade</div>
+            </div>
+            
+            <div class="card" data-info="Nadier's Nightblade ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/b/c/bc9926d7-91b7-4067-b590-a0430bf68d16.jpg?1717047445" alt="Nadier's Nightblade" onclick="zoomImage(this.src)">
+                <div class="info"> | Nadier's Nightblade</div>
+            </div>
+            
+            <div class="card" data-info="Skemfar Shadowsage ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/c/2/c204130f-0483-49ed-8512-03a74894702e.jpg?1631048543" alt="Skemfar Shadowsage" onclick="zoomImage(this.src)">
+                <div class="info"> | Skemfar Shadowsage</div>
+            </div>
+            
+            <div class="card" data-info="Elderfang Disciple ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/7/f/7f3a6148-d005-49c1-a7fc-867c4e8251cd.jpg?1631048063" alt="Elderfang Disciple" onclick="zoomImage(this.src)">
+                <div class="info"> | Elderfang Disciple</div>
+            </div>
+            
+            <div class="card" data-info="Exquisite Huntmaster ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/4/4/444b75d9-f7c7-4a13-9318-02d7bbd80c9c.jpg?1616447012" alt="Exquisite Huntmaster" onclick="zoomImage(this.src)">
+                <div class="info"> | Exquisite Huntmaster</div>
+            </div>
+            
+            <div class="card" data-info="Lys Alana Huntmaster ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/0/8/0849f67b-da5d-49f7-840f-f87f48518156.jpg?1631235019" alt="Lys Alana Huntmaster" onclick="zoomImage(this.src)">
+                <div class="info"> | Lys Alana Huntmaster</div>
+            </div>
+            
+            <div class="card" data-info="Imperious Perfect ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/8/3/83b4a09f-ea53-42b4-a41a-4299192a6fd3.jpg?1730572769" alt="Imperious Perfect" onclick="zoomImage(this.src)">
+                <div class="info"> | Imperious Perfect</div>
+            </div>
+            
+            <div class="card" data-info="Sultai Charm ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/7/2/72af6c1f-33a0-4e02-95b7-74ecaa6a6d87.jpg?1673305662" alt="Sultai Charm" onclick="zoomImage(this.src)">
+                <div class="info"> | Sultai Charm</div>
+            </div>
+            
+            <div class="card" data-info="Growth Spiral ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/1/e/1e10e2b4-9639-41ae-8b8e-253224d3d513.jpg?1726284492" alt="Growth Spiral" onclick="zoomImage(this.src)">
+                <div class="info"> | Growth Spiral</div>
+            </div>
+            
+            <div class="card" data-info="Putrefy ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/a/d/ad6ed9f1-2014-49e2-91c6-2b55c8d60cdc.jpg?1767731378" alt="Putrefy" onclick="zoomImage(this.src)">
+                <div class="info"> | Putrefy</div>
+            </div>
+            
+            <div class="card" data-info="Mortality Spear ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/f/1/f1f39fe7-dc12-49c9-80ac-4135dc1f8f08.jpg?1627429727" alt="Mortality Spear" onclick="zoomImage(this.src)">
+                <div class="info"> | Mortality Spear</div>
+            </div>
+            
+            <div class="card" data-info="Arcane Denial ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/9/b/9b3f47a9-65fb-4b53-8e52-1c4b678b5841.jpg?1726284627" alt="Arcane Denial" onclick="zoomImage(this.src)">
+                <div class="info"> | Arcane Denial</div>
+            </div>
+            
+            <div class="card" data-info="Counterspell ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/4/f/4f616706-ec97-4923-bb1e-11a69fbaa1f8.jpg?1751282477" alt="Counterspell" onclick="zoomImage(this.src)">
+                <div class="info"> | Counterspell</div>
+            </div>
+            
+            <div class="card" data-info="Negate ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/5/2/52d58fe4-6070-4022-9cd7-c35a11b44525.jpg?1771342360" alt="Negate" onclick="zoomImage(this.src)">
+                <div class="info"> | Negate</div>
+            </div>
+            
+            <div class="card" data-info="Cultivate ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/4/8/4824ad7c-e533-4357-b486-9e908721db65.jpg?1771424445" alt="Cultivate" onclick="zoomImage(this.src)">
+                <div class="info"> | Cultivate</div>
+            </div>
+            
+            <div class="card" data-info="Rampant Growth ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/b/7/b7c47024-5e08-4b17-b41a-7647f8b814b9.jpg?1743206981" alt="Rampant Growth" onclick="zoomImage(this.src)">
+                <div class="info"> | Rampant Growth</div>
+            </div>
+            
+            <div class="card" data-info="Feed the Swarm ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/a/7/a776f96b-01bf-430a-b1ad-9f4651070610.jpg?1743206491" alt="Feed the Swarm" onclick="zoomImage(this.src)">
+                <div class="info"> | Feed the Swarm</div>
+            </div>
+            
+            <div class="card" data-info="Morcant's Loyalist ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/1/7/175c6b1c-8790-41a2-ae15-5031206c410f.jpg?1767952302" alt="Morcant's Loyalist" onclick="zoomImage(this.src)">
+                <div class="info"> | Morcant's Loyalist</div>
+            </div>
+            
+            <div class="card" data-info="Chomping Changeling ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/e/1/e187dcc6-19ad-4cf6-94b4-daf07f5144e5.jpg?1767658367" alt="Chomping Changeling" onclick="zoomImage(this.src)">
+                <div class="info"> | Chomping Changeling</div>
+            </div>
+            
+            <div class="card" data-info="Bojuka Bog ">
+                <button class="check-btn" onclick="toggleFound(this)">✓</button>
+                <img src="https://cards.scryfall.io/normal/front/b/0/b0c6fb5e-07e2-4d22-be19-60592f00584a.jpg?1752945235" alt="Bojuka Bog" onclick="zoomImage(this.src)">
+                <div class="info"> | Bojuka Bog</div>
+            </div>
+            
+        </div>
+
+        <script>
+            function filterCards() {
+                let q = document.getElementById('search').value.toLowerCase();
+                document.querySelectorAll('.card').forEach(card => {
+                    card.style.display = card.dataset.info.toLowerCase().includes(q) ? 'block' : 'none';
+                });
+            }
+            function toggleFound(btn) {
+                btn.parentElement.classList.toggle('found');
+            }
+            function zoomImage(src) {
+                document.getElementById('modalImg').src = src;
+                document.getElementById('modal').style.display = 'flex';
+            }
+        </script>
+    </body>
+    </html>
+    
