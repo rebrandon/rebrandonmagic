@@ -3,57 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rebrandon's Rest | MtG Commander Re-Branded for everyone</title>
+    <title>Rebrandon | Multiverse of Hobbies</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Optional: Add a clean font like Inter or Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Rebrandon's Rest</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>                    
-                    <li><a href="archive.html">Library</a></li>
-                </ul>
+
+    <!-- Header / Branding -->
+    <header class="site-header">
+        <div class="header-container">
+            <h1 class="logo">rebrandon<span>.com</span></h1>
+            <p class="tagline">Chronicles of a multi-fixated creator. From the command zone to the shiny hunt.</p>
+            <nav class="site-nav">
+                <a href="#shiny-dex">Shiny Dex</a>
+                <a href="#commander">MTG Commander</a>
+                <a href="#content">Articles & Videos</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero">
-            <h2>The Command Zone</h2>
-            <p>Welcome to my new journey. Here, I'm documenting the growth of my small business, MTG deck-building tips, and the transition into content creation.</p>
+    <main class="main-container">
+
+        <!-- Section 1: Shiny Hunting Tracker -->
+        <section id="shiny-dex" class="dashboard-section">
+            <div class="section-header">
+                <h2>✨ Shiny Living Dex Journey</h2>
+                <span class="badge">Active Project: Soul Silver Mastery</span>
+            </div>
+            <div class="shiny-tracker-card">
+                <div class="progress-bar-container">
+                    <div class="progress-labels">
+                        <span>Living Dex Progress</span>
+                        <!-- Update these numbers as your count grows -->
+                        <strong>152 / 1025</strong>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 14.8%;"></div>
+                    </div>
+                </div>
+                
+                <div class="current-hunts">
+                    <h3>Current Targets</h3>
+                    <div class="hunt-grid">
+                        <div class="hunt-item">
+                            <span class="pokemon-name">Lugia</span>
+                            <span class="hunt-method">Soft Resets (Soul Silver)</span>
+                            <span class="counter">Encounters: 1,420</span>
+                        </div>
+                        <div class="hunt-item completed">
+                            <span class="pokemon-name">Totodile</span>
+                            <span class="hunt-method">Starter SR (Soul Silver)</span>
+                            <span class="counter">✨ CAUGHT ✨</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-       <section id="the-stack">
-    <h3>The Stack <span class="subtitle">(What's Resolving Next)</span></h3>
-    <div class="stack-container">
-        <div class="stack-item resolving">
-            <div class="status-tag">Resolving Soon</div>
-            <h4>Video: Why [Card Name] is Overrated in Commander</h4>
-            <p>Current Phase: Final Edit</p>
-        </div>
+        <!-- Section 2: Magic: The Gathering Commander Decks -->
+        <section id="commander" class="dashboard-section">
+            <div class="section-header">
+                <h2>⚔️ The Command Zone</h2>
+                <p>Current builds and active theorycrafting for EDH.</p>
+            </div>
+            <div class="deck-grid">
+                <!-- Deck 1 -->
+                <div class="deck-card">
+                    <div class="deck-badge active">Main Deck</div>
+                    <h3>Rin and Seri, Inseparable</h3>
+                    <p class="deck-tags">Naya • Cats & Dogs • Typal Kindred</p>
+                    <p class="deck-desc">My go-to deck. Flooding the board with tokens, gaining life, and throwing direct damage at opponents' faces.</p>
+                </div>
+                <!-- Deck 2 -->
+                <div class="deck-card">
+                    <div class="deck-badge active">Main Deck</div>
+                    <h3>Teysa Karlov</h3>
+                    <p class="deck-tags">Orzhov • Aristocrats • Double Death</p>
+                    <p class="deck-desc">Squeezing every ounce of value out of dying creatures. If it dies, it triggers twice, and everybody bleeds.</p>
+                </div>
+                <!-- Deck 3 -->
+                <div class="deck-card">
+                    <div class="deck-badge building">Building</div>
+                    <h3>Maralen of the Fae Ascendant</h3>
+                    <p class="deck-tags">Mono-Black • Politics • Puzzle Box</p>
+                    <p class="deck-desc">Currently brewing a unique political puzzle deck where nobody draws cards, but everyone searches. High risk, high reward.</p>
+                </div>
+            </div>
+        </section>
 
-        <div class="stack-item waiting">
-            <div class="status-tag">On the Stack</div>
-            <h4>Article: From Bulk Bins to Board States</h4>
-            <p>Current Phase: Drafting</p>
-        </div>
+        <!-- Section 3: Blog & Video Content Feed -->
+        <section id="content" class="dashboard-section">
+            <div class="section-header">
+                <h2>📝 Latest Content & Media</h2>
+                <p>Deep dives, video essays, and scripts from my content creation journey.</p>
+            </div>
+            <div class="content-feed">
+                
+                <!-- Example Video Post -->
+                <article class="content-card video-post">
+                    <div class="content-meta">
+                        <span class="content-type video">YouTube</span>
+                        <span class="content-date">May 2026</span>
+                    </div>
+                    <h3>Commanding the Runway: Episode 1</h3>
+                    <p class="content-excerpt">Launching my brand new series! In this video, I dive into the historic archives of RuPaul's Drag Race and pair our iconic Season 1 winner with the perfect Magic: The Gathering Commander.</p>
+                    <!-- Replace with your actual video embed code later -->
+                    <div class="video-placeholder">
+                        <span>▶️ Video Embed Placeholder</span>
+                    </div>
+                </article>
 
-        <div class="stack-item resolved">
-            <div class="status-tag">Resolved</div>
-            <h4><a href="latest-article.html">The Philosophy of Naya Deck Building</a></h4>
-            <p>Published: 2 days ago</p>
-        </div>
-    </div>
-</section>
+                <!-- Example Article Post -->
+                <article class="content-card article-post">
+                    <div class="content-meta">
+                        <span class="content-type writing">Article</span>
+                        <span class="content-date">May 2026</span>
+                    </div>
+                    <h3>The Psychology of the 1-in-8192 Shiny Hunt</h3>
+                    <p class="content-excerpt">Why do we spend hours soft-resetting retro handheld hardware for a single palette swap? Exploring the unique satisfaction of retro hunting and mastering achievements in Pokémon Soul Silver...</p>
+                    <a href="#" class="read-more">Read Full Post &rarr;</a>
+                </article>
+
+            </div>
+        </section>
+
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 [Your Name]. Built with Fedora Linux.</p>
-        </div>
+    <footer class="site-footer">
+        <p>&copy; 2026 rebrandon. Built with Obsidian, GitHub Pages, and pure fixation.</p>
     </footer>
+
 </body>
 </html>
