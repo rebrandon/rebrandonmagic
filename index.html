@@ -247,18 +247,38 @@
         <p>&copy; 2026 rebrandon. Built with Obsidian, GitHub Pages, and pure fixation.</p>
     </footer>
 <script>
-    function displayPublicHunts() {
+    <!-- This is the display container where your hunts show up -->
+<div class="shiny-showcase">
+    <h2>✨ Current Shiny Hunts ✨</h2>
+    <div id="public-hunts-display">Loading live tracker data...</div>
+</div>
+
+<!-- 1. Load the Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    // 2. Put your credentials here (Same as your tracker page)
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
+    
+    // 3. Initialize the client ONCE without any headers or passwords
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function displayPublicHunts() {
         const displayContainer = document.getElementById('public-hunts-display');
         
-        // Grab the data saved by your hidden tracker page
-        const savedHunts = JSON.parse(localStorage.getItem('shinyHunts')) || [];
+        // 4. Fetch the real-time data from your cloud table
+        const { data: savedHunts, error } = await supabaseClient
+            .from('shiny_hunts')
+            .select('*')
+            .order('id', { ascending: true });
 
-        if (savedHunts.length === 0) {
+        if (error || !savedHunts || savedHunts.length === 0) {
             displayContainer.innerHTML = '<p style="color: #888;">No active hunts at the moment. Check back soon!</p>';
             return;
         }
 
-        // Build the HTML layout to display the progress to your viewers
+        // 5. Render the list safely for your viewers
         displayContainer.innerHTML = savedHunts.map(hunt => `
             <div style="background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-weight: bold; color: #fff; font-size: 1.1rem;">${hunt.name}</span>
@@ -269,7 +289,7 @@
         `).join('');
     }
 
-    // Run the function when the page loads
+    // Run the function automatically when the page finishes loading
     window.addEventListener('DOMContentLoaded', displayPublicHunts);
 </script>
 </body>
