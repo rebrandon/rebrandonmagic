@@ -50,37 +50,41 @@
                     <div class="hunt-grid">
     
     <!-- Active Hunt: Lugia -->
-    <div class="hunt-item">
-        <div class="sprite-container">
-            <!-- Gen 4 Shiny Lugia Sprite -->
-            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/shiny/249.png" alt="Shiny Lugia Sprite" class="pokemon-sprite">
-        </div>
-        <div class="hunt-details">
-            <span class="pokemon-name">Lugia</span>
-            <span class="hunt-method">Soft Resets (Soul Silver)</span>
-            <span class="counter">Encounters: 1,420</span>
-        </div>
-    </div>
-
-    <!-- Completed Hunt: Totodile -->
-    <div class="hunt-item completed">
-        <div class="sprite-container">
-            <!-- Gen 4 Shiny Totodile Sprite -->
-            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/shiny/158.png" alt="Shiny Totodile Sprite" class="pokemon-sprite">
-        </div>
-        <div class="hunt-details">
-            <span class="pokemon-name">Totodile</span>
-            <span class="hunt-method">Starter SR (Soul Silver)</span>
-            <span class="counter">✨ CAUGHT ✨</span>
-        </div>
-    </div>
-                        <div class="shiny-showcase">
+  <div class="shiny-showcase">
     <h2>✨ Current Shiny Hunts ✨</h2>
-    <div id="public-hunts-display">Loading active hunts...</div>
+    <div id="public-hunts-display">Loading live tracker data...</div>
 </div>
 
-</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS (Same as above)
+    const SUPABASE_URL = https://supabase.com/dashboard/project/vhwpcjcotiilqfjatxza;
+    const SUPABASE_KEY = sb_publishable_ywYMn6iAxC_3UDDhpHhu-w_CXJzuZIe;
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function displayPublicHunts() {
+        const displayContainer = document.getElementById('public-hunts-display');
+        
+        // Fetch real-time data from the cloud table
+        const { data: savedHunts, error } = await supabase.from('shiny_hunts').select('*').order('id', { ascending: true });
+
+        if (error || !savedHunts || savedHunts.length === 0) {
+            displayContainer.innerHTML = '<p style="color: #888;">No active hunts at the moment. Check back soon!</p>';
+            return;
+        }
+
+        displayContainer.innerHTML = savedHunts.map(hunt => `
+            <div style="background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: bold; color: #fff; font-size: 1.1rem;">${hunt.name}</span>
+                <span style="background: #28a745; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-family: monospace; font-size: 1.2rem;">
+                    ${hunt.count.toLocaleString()} Encounters
+                </span>
             </div>
+        `).join('');
+    }
+
+    window.addEventListener('DOMContentLoaded', displayPublicHunts);
+</script>
         </section>
 
         <!-- Section 2: Magic: The Gathering Commander Decks -->
