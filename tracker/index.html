@@ -2,101 +2,101 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shiny Hunt Tracker</title>
+    <title>Shiny Hunt Tracker (Admin)</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { background: #121212; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
+        body { background: #121212; color: #e0e0e0; font-family: sans-serif; padding: 20px; }
         .container { max-width: 600px; margin: auto; }
         .hunt-card { background: #1e1e1e; border: 1px solid #333; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
         .count-display { display: flex; align-items: center; margin-bottom: 15px; }
         .count { font-size: 3.5rem; font-weight: bold; flex-grow: 1; color: #fff; }
-        
-        /* Button Layouts */
         .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-        button { padding: 12px; cursor: pointer; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; transition: background 0.2s; }
-        
-        /* Specific Button Styles */
-        .btn-minus { background: #dc3545; color: white; opacity: 0.8; }
-        .btn-minus:hover { opacity: 1; }
-        
+        button { padding: 12px; cursor: pointer; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; }
+        .btn-minus { background: #dc3545; color: white; }
         .btn-plus-1 { background: #28a745; color: white; flex-grow: 2; font-size: 20px; padding: 15px; }
         .btn-plus-2 { background: #17a2b8; color: white; flex-grow: 1; }
         .btn-plus-5 { background: #007bff; color: white; flex-grow: 1; }
-        
         .add-hunt { background: #1e1e1e; padding: 20px; border-radius: 12px; border: 2px dashed #444; text-align: center; margin-top: 30px; }
         input { background: #333; color: white; border: 1px solid #444; padding: 10px; border-radius: 4px; width: 60%; font-size: 16px; }
-        .btn-delete { margin-top: 15px; background: transparent; color: #666; font-size: 12px; padding: 5px; }
-        .btn-delete:hover { color: #dc3545; }
+        .btn-delete { margin-top: 15px; background: transparent; color: #666; font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Active Shiny Hunts</h1>
-        <div id="hunts-list"></div>
+        <div id="hunts-list">Loading live data...</div>
 
         <div class="add-hunt">
-            <input type="text" id="new-hunt-name" placeholder="Target Pokemon (e.g., SoulSilver Lugia)">
+            <input type="text" id="new-hunt-name" placeholder="Target Pokemon">
             <button onclick="addHunt()" style="background: #6f42c1; color: white;">Start New Hunt</button>
         </div>
     </div>
 
     <script>
-        // Load existing hunts from local storage
-        let hunts = JSON.parse(localStorage.getItem('shinyHunts')) || [];
+        // REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS
+        const SUPABASE_URL = "YOUR_SUPABASE_URL";
+        const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let hunts = [];
+
+        async function fetchHunts() {
+            const { data, error } = await supabase.from('shiny_hunts').select('*').order('id', { ascending: true });
+            if (!error) {
+                hunts = data;
+                render();
+            }
+        }
 
         function render() {
             const list = document.getElementById('hunts-list');
             if (hunts.length === 0) {
-                list.innerHTML = '<p style="color: #666; text-align: center;">No active hunts. Start one below!</p>';
+                list.innerHTML = '<p style="color: #666; text-align: center;">No active hunts.</p>';
                 return;
             }
 
             list.innerHTML = hunts.map((h, i) => `
                 <div class="hunt-card">
                     <h3>${h.name}</h3>
-                    <div class="count-display">
-                        <div class="count">${h.count.toLocaleString()}</div>
-                    </div>
+                    <div class="count-display"><div class="count">${h.count.toLocaleString()}</div></div>
                     <div class="controls">
-                        <button class="btn-minus" onclick="update(${i}, -1)" title="Subtract 1">-1</button>
+                        <button class="btn-minus" onclick="update(${i}, -1)">-1</button>
                         <button class="btn-plus-1" onclick="update(${i}, 1)">+1</button>
                         <button class="btn-plus-2" onclick="update(${i}, 2)">+2</button>
                         <button class="btn-plus-5" onclick="update(${i}, 5)">+5</button>
                     </div>
-                    <div style="text-align: right;">
-                        <button class="btn-delete" onclick="removeHunt(${i})">Delete Hunt</button>
-                    </div>
+                    <div style="text-align: right;"><button class="btn-delete" onclick="removeHunt(${h.id})">Delete Hunt</button></div>
                 </div>
             `).join('');
-            
-            // Save updates to local storage
-            localStorage.setItem('shinyHunts', JSON.stringify(hunts));
         }
 
-        function addHunt() {
+        async function addHunt() {
             const nameInput = document.getElementById('new-hunt-name');
             const name = nameInput.value.trim();
             if(!name) return;
             
-            hunts.push({ name, count: 0 });
+            await supabase.from('shiny_hunts').insert([{ name, count: 0 }]);
             nameInput.value = '';
-            render();
+            fetchHunts();
         }
 
-        // Handles increments and decrements, preventing counts below 0
-        function update(index, val) {
-            hunts[index].count = Math.max(0, hunts[index].count + val);
+        async function update(index, val) {
+            const newCount = Math.max(0, hunts[index].count + val);
+            // Optimistic update for snappy UI
+            hunts[index].count = newCount;
             render();
+
+            await supabase.from('shiny_hunts').update({ count: newCount }).eq('id', hunts[index].id);
         }
 
-        function removeHunt(index) {
-            if(confirm(`Are you sure you want to stop hunting ${hunts[index].name}? Progress will be lost.`)) {
-                hunts.splice(index, 1);
-                render();
+        async function removeHunt(id) {
+            if(confirm("Are you sure you want to stop this hunt?")) {
+                await supabase.from('shiny_hunts').delete().eq('id', id);
+                fetchHunts();
             }
         }
 
-        // Initial render on page load
-        render();
+        fetchHunts();
     </script>
 </body>
 </html>
