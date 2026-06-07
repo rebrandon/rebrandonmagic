@@ -5,7 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rebrandon | Multiverse of Hobbies</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Optional: Add a clean font like Inter or Roboto -->
+    <!-- Optional: Add a clean font like Inter or Roboto --><script>
+    const SUPABASE_URL = "https://vhwpcjcotiilqfjatxza.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_ywYMn6iAxC_3UDDhpHhu-w_CXJzuZIe";
+
+    // 1. Prompt for the password when the admin page loads
+    const adminPassword = prompt("Enter Admin Password to enable tracking:");
+
+    // 2. Pass the password into the Supabase client headers
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      global: {
+        headers: {
+          'x-tracker-auth': adminPassword
+        }
+      }
+    });
+
+    let hunts = [];
+
+    // fetchHunts remains exactly the same as before
+    async function fetchHunts() {
+        const { data, error } = await supabaseClient.from('shiny_hunts').select('*').order('id', { ascending: true });
+        if (!error) {
+            hunts = data;
+            render();
+        }
+    }
+
+    // render remains exactly the same as before
+    function render() {
+        const list = document.getElementById('hunts-list');
+        if (hunts.length === 0) {
+            list.innerHTML = '<p style="color: #666; text-align: center;">No active hunts.</p>';
+            return;
+        }
+        list.innerHTML = hunts.map((h, i) => `
+            <div class="hunt-card">
+                <h3>${h.name}</h3>
+                <div class="count-display"><div class="count">${h.count.toLocaleString()}</div></div>
+                <div class="controls">
+                    <button class="btn-minus" onclick="update(${i}, -1)">-1</button>
+                    <button class="btn-plus-1" onclick="update(${i}, 1)">+1</button>
+                    <button class="btn-plus-2" onclick="update(${i}, 2)">+2</button>
+                    <button class="btn-plus-5" onclick="update(${i}, 5)">+5</button>
+                </div>
+                <div style="text-align: right;"><button class="btn-delete" onclick="removeHunt(${h.id})">Delete Hunt</button></div>
+            </div>
+        `).join('');
+    }
+
+    async function addHunt() {
+        const nameInput = document.getElementById('new-hunt-name');
+        const name = nameInput.value.trim();
+        if(!name) return;
+        
+        const { error } = await supabaseClient.from('shiny_hunts').insert([{ name, count: 0 }]);
+        if (error) alert("Action failed: Incorrect Admin Password.");
+        nameInput.value = '';
+        fetchHunts();
+    }
+
+    async function update(index, val) {
+        const newCount = Math.max(0, hunts[index].count + val);
+        
+        // Optimistic update for snappy UI
+        const oldCount = hunts[index].count;
+        hunts[index].count = newCount;
+        render();
+
+        const { error } = await supabaseClient.from('shiny_hunts').update({ count: newCount }).eq('id', hunts[index].id);
+        
+        // If password was wrong, revert the number and warn the user
+        if (error) {
+            alert("Changes not saved: Incorrect Admin Password.");
+            hunts[index].count = oldCount;
+            render();
+        }
+    }
+
+    async function removeHunt(id) {
+        if(confirm("Are you sure you want to stop this hunt?")) {
+            const { error } = await supabaseClient.from('shiny_hunts').delete().eq('id', id);
+            if (error) alert("Action failed: Incorrect Admin Password.");
+            fetchHunts();
+        }
+    }
+
+    fetchHunts();
+</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
