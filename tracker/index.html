@@ -34,8 +34,14 @@
 
     <script>
         // REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS
-        const SUPABASE_URL = "https://vhwpcjcotiilqfjatxza.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_ywYMn6iAxC_3UDDhpHhu-w_CXJzuZIe"
+const SUPABASE_URL = "https://vhwpcjcotiilqfjatxza.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ywYMn6iAxC_3UDDhpHhu-w_CXJzuZIe";
+
+// 1. This must happen FIRST
+const adminPassword = prompt("Enter Admin Password to enable tracking:");
+
+// 2. Note the 'supabaseClient' name and the lowercase 'supabase.createClient' call
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let hunts = [];
