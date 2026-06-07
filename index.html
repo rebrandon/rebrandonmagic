@@ -74,6 +74,10 @@
             <span class="counter">✨ CAUGHT ✨</span>
         </div>
     </div>
+                        <div class="shiny-showcase">
+    <h2>✨ Current Shiny Hunts ✨</h2>
+    <div id="public-hunts-display">Loading active hunts...</div>
+</div>
 
 </div>
             </div>
@@ -151,6 +155,31 @@
     <footer class="site-footer">
         <p>&copy; 2026 rebrandon. Built with Obsidian, GitHub Pages, and pure fixation.</p>
     </footer>
+<script>
+    function displayPublicHunts() {
+        const displayContainer = document.getElementById('public-hunts-display');
+        
+        // Grab the data saved by your hidden tracker page
+        const savedHunts = JSON.parse(localStorage.getItem('shinyHunts')) || [];
 
+        if (savedHunts.length === 0) {
+            displayContainer.innerHTML = '<p style="color: #888;">No active hunts at the moment. Check back soon!</p>';
+            return;
+        }
+
+        // Build the HTML layout to display the progress to your viewers
+        displayContainer.innerHTML = savedHunts.map(hunt => `
+            <div style="background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: bold; color: #fff; font-size: 1.1rem;">${hunt.name}</span>
+                <span style="background: #28a745; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-family: monospace; font-size: 1.2rem;">
+                    ${hunt.count.toLocaleString()} Encounters
+                </span>
+            </div>
+        `).join('');
+    }
+
+    // Run the function when the page loads
+    window.addEventListener('DOMContentLoaded', displayPublicHunts);
+</script>
 </body>
 </html>
