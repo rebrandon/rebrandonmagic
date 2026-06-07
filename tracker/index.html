@@ -71,16 +71,28 @@
             `).join('');
         }
 
-        async function addHunt() {
-            const nameInput = document.getElementById('new-hunt-name');
-            const name = nameInput.value.trim();
-            if(!name) return;
-            
-            await supabaseClient.from('shiny_hunts').insert([{ name, count: 0 }]);
-            nameInput.value = '';
-            fetchHunts();
-        }
+        async function update(index, val) {
+    const newCount = Math.max(0, hunts[index].count + val);
+    
+    // Optimistic update for snappy UI
+    const oldCount = hunts[index].count;
+    hunts[index].count = newCount;
+    render();
 
+    // Call our brand new secure RPC function instead of .update()
+    const { error } = await supabaseClient.rpc('update_shiny_count', {
+        hunt_id: hunts[index].id,
+        new_count: newCount,
+        provided_password: adminPassword // Uses the password you typed when the page loaded
+    });
+    
+    // If password was wrong, revert the number on screen and warn you
+    if (error) {
+        alert("Changes not saved: Incorrect Admin Password.");
+        hunts[index].count = oldCount;
+        render();
+    }
+}
         async function update(index, val) {
             const newCount = Math.max(0, hunts[index].count + val);
             // Optimistic update for snappy UI
