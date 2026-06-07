@@ -36,17 +36,18 @@
         // REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS
         const SUPABASE_URL = "https://vhwpcjcotiilqfjatxza.supabase.co";
         const SUPABASE_KEY = "sb_publishable_ywYMn6iAxC_3UDDhpHhu-w_CXJzuZIe"
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let hunts = [];
 
         async function fetchHunts() {
-            const { data, error } = await supabase.from('shiny_hunts').select('*').order('id', { ascending: true });
-            if (!error) {
-                hunts = data;
-                render();
-            }
-        }
+    // Change 'supabase' to 'supabaseClient' here:
+    const { data, error } = await supabaseClient.from('shiny_hunts').select('*').order('id', { ascending: true });
+    if (!error) {
+        hunts = data;
+        render();
+    }
+}
 
         function render() {
             const list = document.getElementById('hunts-list');
@@ -75,7 +76,7 @@
             const name = nameInput.value.trim();
             if(!name) return;
             
-            await supabase.from('shiny_hunts').insert([{ name, count: 0 }]);
+            await supabaseClient.from('shiny_hunts').insert([{ name, count: 0 }]);
             nameInput.value = '';
             fetchHunts();
         }
@@ -86,7 +87,7 @@
             hunts[index].count = newCount;
             render();
 
-            await supabase.from('shiny_hunts').update({ count: newCount }).eq('id', hunts[index].id);
+            await supabaseClient.from('shiny_hunts').update({ count: newCount }).eq('id', hunts[index].id);
         }
 
         async function removeHunt(id) {
