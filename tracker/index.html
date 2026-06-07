@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shiny Hunt Tracker</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #1a1a1a; color: white; }
+        .hunt-card { background: #333; padding: 15px; margin: 10px 0; border-radius: 8px; display: flex; align-items: center; gap: 20px; }
+        button { padding: 10px 15px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; }
+        .inc { background: #4caf50; color: white; }
+        .res { background: #f44336; color: white; }
+        input { padding: 8px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Shiny Hunt Tracker</h1>
+    <input type="text" id="huntName" placeholder="Enter Pokemon Name...">
+    <button onclick="addHunt()">Add New Hunt</button>
+    <div id="trackerList"></div>
+
+    <script>
+        let hunts = JSON.parse(localStorage.getItem('shinyHunts')) || [];
+
+        function render() {
+            const list = document.getElementById('trackerList');
+            list.innerHTML = '';
+            hunts.forEach((hunt, index) => {
+                list.innerHTML += `
+                    <div class="hunt-card">
+                        <h3>${hunt.name}: ${hunt.count}</h3>
+                        <button class="inc" onclick="increment(${index})">+1</button>
+                        <button class="res" onclick="reset(${index})">Reset</button>
+                    </div>`;
+            });
+            localStorage.setItem('shinyHunts', JSON.stringify(hunts));
+        }
+
+        function addHunt() {
+            const name = document.getElementById('huntName').value;
+            if (name) {
+                hunts.push({ name, count: 0 });
+                document.getElementById('huntName').value = '';
+                render();
+            }
+        }
+
+        function increment(i) { hunts[i].count++; render(); }
+        function reset(i) { if(confirm('Reset count?')) { hunts[i].count = 0; render(); } }
+        render();
+    </script>
+</body>
+</html>
