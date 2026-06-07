@@ -60,13 +60,13 @@
     // REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS (Same as above)
     const SUPABASE_URL = "https://vhwpcjcotiilqfjatxza.supabase.co";
     const SUPABASE_KEY = "sb_publishable_ywYMn6iAxC_3UDDhpHhu-w_CXJzuZIe";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function displayPublicHunts() {
         const displayContainer = document.getElementById('public-hunts-display');
         
         // Fetch real-time data from the cloud table
-        const { data: savedHunts, error } = await supabase.from('shiny_hunts').select('*').order('id', { ascending: true });
+        const { data: savedHunts, error } = await supabaseClient.from('shiny_hunts').select('*').order('id', { ascending: true });
 
         if (error || !savedHunts || savedHunts.length === 0) {
             displayContainer.innerHTML = '<p style="color: #888;">No active hunts at the moment. Check back soon!</p>';
