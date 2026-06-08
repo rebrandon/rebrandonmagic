@@ -5,101 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rebrandon | Multiverse of Hobbies</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Optional: Add a clean font like Inter or Roboto --><script>
-    const SUPABASE_URL = "https://vhwpcjcotiilqfjatxza.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_ywYMn6iAxC_3UDDhpHhu-w_CXJzuZIe";
-
-    // 1. Prompt for the password when the admin page loads
-    const adminPassword = prompt("Enter Admin Password to enable tracking:");
-
-    // 2. Pass the password into the Supabase client headers
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
-      global: {
-        headers: {
-          'x-tracker-auth': adminPassword
-        }
-      }
-    });
-
-    let hunts = [];
-
-    // fetchHunts remains exactly the same as before
-    async function fetchHunts() {
-        const { data, error } = await supabaseClient.from('shiny_hunts').select('*').order('id', { ascending: true });
-        if (!error) {
-            hunts = data;
-            render();
-        }
-    }
-
-    // render remains exactly the same as before
-    function render() {
-        const list = document.getElementById('hunts-list');
-        if (hunts.length === 0) {
-            list.innerHTML = '<p style="color: #666; text-align: center;">No active hunts.</p>';
-            return;
-        }
-        list.innerHTML = hunts.map((h, i) => `
-            <div class="hunt-card">
-                <h3>${h.name}</h3>
-                <div class="count-display"><div class="count">${h.count.toLocaleString()}</div></div>
-                <div class="controls">
-                    <button class="btn-minus" onclick="update(${i}, -1)">-1</button>
-                    <button class="btn-plus-1" onclick="update(${i}, 1)">+1</button>
-                    <button class="btn-plus-2" onclick="update(${i}, 2)">+2</button>
-                    <button class="btn-plus-5" onclick="update(${i}, 5)">+5</button>
-                </div>
-                <div style="text-align: right;"><button class="btn-delete" onclick="removeHunt(${h.id})">Delete Hunt</button></div>
-            </div>
-        `).join('');
-    }
-
-    async function addHunt() {
-        const nameInput = document.getElementById('new-hunt-name');
-        const name = nameInput.value.trim();
-        if(!name) return;
-        
-        const { error } = await supabaseClient.from('shiny_hunts').insert([{ name, count: 0 }]);
-        if (error) alert("Action failed: Incorrect Admin Password.");
-        nameInput.value = '';
-        fetchHunts();
-    }
-
-    async function update(index, val) {
-        const newCount = Math.max(0, hunts[index].count + val);
-        
-        // Optimistic update for snappy UI
-        const oldCount = hunts[index].count;
-        hunts[index].count = newCount;
-        render();
-
-        const { error } = await supabaseClient.from('shiny_hunts').update({ count: newCount }).eq('id', hunts[index].id);
-        
-        // If password was wrong, revert the number and warn the user
-        if (error) {
-            alert("Changes not saved: Incorrect Admin Password.");
-            hunts[index].count = oldCount;
-            render();
-        }
-    }
-
-    async function removeHunt(id) {
-        if(confirm("Are you sure you want to stop this hunt?")) {
-            const { error } = await supabaseClient.from('shiny_hunts').delete().eq('id', id);
-            if (error) alert("Action failed: Incorrect Admin Password.");
-            fetchHunts();
-        }
-    }
-
-    fetchHunts();
-</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Header / Branding -->
     <header class="site-header">
         <div class="header-container">
             <h1 class="logo">rebrandon<span>.com</span></h1>
@@ -114,7 +25,6 @@
 
     <main class="main-container">
 
-        <!-- Section 1: Shiny Hunting Tracker -->
         <section id="shiny-dex" class="dashboard-section">
             <div class="section-header">
                 <h2>✨ Shiny Living Dex Journey</h2>
@@ -124,7 +34,6 @@
                 <div class="progress-bar-container">
                     <div class="progress-labels">
                         <span>Living Dex Progress</span>
-                        <!-- Update these numbers as your count grows -->
                         <strong>152 / 1025</strong>
                     </div>
                     <div class="progress-bar">
@@ -135,67 +44,33 @@
                 <div class="current-hunts">
                     <h3>Current Targets</h3>
                     <div class="hunt-grid">
-    
-    <!-- Active Hunt: Lugia -->
-  <div class="shiny-showcase">
-    <h2>✨ Current Shiny Hunts ✨</h2>
-    <div id="public-hunts-display">Loading live tracker data...</div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    // REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS (Same as above)
-    const SUPABASE_URL = "https://vhwpcjcotiilqfjatxza.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_ywYMn6iAxC_3UDDhpHhu-w_CXJzuZIe";
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    async function displayPublicHunts() {
-        const displayContainer = document.getElementById('public-hunts-display');
-        
-        // Fetch real-time data from the cloud table
-        const { data: savedHunts, error } = await supabaseClient.from('shiny_hunts').select('*').order('id', { ascending: true });
-
-        if (error || !savedHunts || savedHunts.length === 0) {
-            displayContainer.innerHTML = '<p style="color: #888;">No active hunts at the moment. Check back soon!</p>';
-            return;
-        }
-
-        displayContainer.innerHTML = savedHunts.map(hunt => `
-            <div style="background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: bold; color: #fff; font-size: 1.1rem;">${hunt.name}</span>
-                <span style="background: #28a745; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-family: monospace; font-size: 1.2rem;">
-                    ${hunt.count.toLocaleString()} Encounters
-                </span>
+                        <div class="shiny-showcase">
+                            <h2>✨ Live Tracker Counts ✨</h2>
+                            <div id="public-hunts-display">Loading live tracker data...</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        `).join('');
-    }
-
-    window.addEventListener('DOMContentLoaded', displayPublicHunts);
-</script>
         </section>
 
-        <!-- Section 2: Magic: The Gathering Commander Decks -->
         <section id="commander" class="dashboard-section">
             <div class="section-header">
                 <h2>⚔️ The Command Zone</h2>
                 <p>Current builds and active theorycrafting for EDH.</p>
             </div>
             <div class="deck-grid">
-                <!-- Deck 1 -->
                 <div class="deck-card">
                     <div class="deck-badge active">Main Deck</div>
                     <h3>Rin and Seri, Inseparable</h3>
                     <p class="deck-tags">Naya • Cats & Dogs • Typal Kindred</p>
                     <p class="deck-desc">My go-to deck. Flooding the board with tokens, gaining life, and throwing direct damage at opponents' faces.</p>
                 </div>
-                <!-- Deck 2 -->
                 <div class="deck-card">
                     <div class="deck-badge active">Main Deck</div>
                     <h3>Teysa Karlov</h3>
                     <p class="deck-tags">Orzhov • Aristocrats • Double Death</p>
                     <p class="deck-desc">Squeezing every ounce of value out of dying creatures. If it dies, it triggers twice, and everybody bleeds.</p>
                 </div>
-                <!-- Deck 3 -->
                 <div class="deck-card">
                     <div class="deck-badge building">Building</div>
                     <h3>Maralen of the Fae Ascendant</h3>
@@ -205,7 +80,6 @@
             </div>
         </section>
 
-        <!-- Section 3: Blog & Video Content Feed -->
         <section id="content" class="dashboard-section">
             <div class="section-header">
                 <h2>📝 Latest Content & Media</h2>
@@ -213,7 +87,6 @@
             </div>
             <div class="content-feed">
                 
-                <!-- Example Video Post -->
                 <article class="content-card video-post">
                     <div class="content-meta">
                         <span class="content-type video">YouTube</span>
@@ -221,13 +94,11 @@
                     </div>
                     <h3>Commanding the Runway: Episode 1</h3>
                     <p class="content-excerpt">Launching my brand new series! In this video, I dive into the historic archives of RuPaul's Drag Race and pair our iconic Season 1 winner with the perfect Magic: The Gathering Commander.</p>
-                    <!-- Replace with your actual video embed code later -->
                     <div class="video-placeholder">
                         <span>▶️ Video Embed Placeholder</span>
                     </div>
                 </article>
 
-                <!-- Example Article Post -->
                 <article class="content-card article-post">
                     <div class="content-meta">
                         <span class="content-type writing">Article</span>
@@ -246,51 +117,37 @@
     <footer class="site-footer">
         <p>&copy; 2026 rebrandon. Built with Obsidian, GitHub Pages, and pure fixation.</p>
     </footer>
-<script>
-    <!-- This is the display container where your hunts show up -->
-<div class="shiny-showcase">
-    <h2>✨ Current Shiny Hunts ✨</h2>
-    <div id="public-hunts-display">Loading live tracker data...</div>
-</div>
 
-<!-- 1. Load the Supabase CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = "https://vhwpcjcotiilqfjatxza.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_ywYMn6iAxC_3UDDhpHhu-w_CXJzuZIe";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-<script>
-    // 2. Put your credentials here (Same as your tracker page)
-    const SUPABASE_URL = "YOUR_SUPABASE_URL";
-    const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
-    
-    // 3. Initialize the client ONCE without any headers or passwords
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        async function displayPublicHunts() {
+            const displayContainer = document.getElementById('public-hunts-display');
+            
+            const { data: savedHunts, error } = await supabaseClient
+                .from('shiny_hunts')
+                .select('*')
+                .order('id', { ascending: true });
 
-    async function displayPublicHunts() {
-        const displayContainer = document.getElementById('public-hunts-display');
-        
-        // 4. Fetch the real-time data from your cloud table
-        const { data: savedHunts, error } = await supabaseClient
-            .from('shiny_hunts')
-            .select('*')
-            .order('id', { ascending: true });
+            if (error || !savedHunts || savedHunts.length === 0) {
+                displayContainer.innerHTML = '<p style="color: #888; text-align:center;">No active hunts at the moment. Check back soon!</p>';
+                return;
+            }
 
-        if (error || !savedHunts || savedHunts.length === 0) {
-            displayContainer.innerHTML = '<p style="color: #888;">No active hunts at the moment. Check back soon!</p>';
-            return;
+            displayContainer.innerHTML = savedHunts.map(hunt => `
+                <div style="background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: bold; color: #fff; font-size: 1.1rem;">${hunt.name}</span>
+                    <span style="background: #28a745; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-family: monospace; font-size: 1.2rem;">
+                        ${hunt.count.toLocaleString()} Encounters
+                    </span>
+                </div>
+            `).join('');
         }
 
-        // 5. Render the list safely for your viewers
-        displayContainer.innerHTML = savedHunts.map(hunt => `
-            <div style="background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: bold; color: #fff; font-size: 1.1rem;">${hunt.name}</span>
-                <span style="background: #28a745; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-family: monospace; font-size: 1.2rem;">
-                    ${hunt.count.toLocaleString()} Encounters
-                </span>
-            </div>
-        `).join('');
-    }
-
-    // Run the function automatically when the page finishes loading
-    window.addEventListener('DOMContentLoaded', displayPublicHunts);
-</script>
+        window.addEventListener('DOMContentLoaded', displayPublicHunts);
+    </script>
 </body>
 </html>
