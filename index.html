@@ -1,153 +1,143 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rebrandon | Multiverse of Hobbies</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-</head>
-<body>
+---
+layout: default
+title: "Rebrandon | The Lip Sync Lab"
+---
 
-    <header class="site-header">
-        <div class="header-container">
-            <h1 class="logo">rebrandon<span>.com</span></h1>
-            <p class="tagline">Chronicles of a multi-fixated creator. From the command zone to the shiny hunt.</p>
-            <nav class="site-nav">
-                <a href="#shiny-dex">Shiny Dex</a>
-                <a href="#commander">MTG Commander</a>
-                <a href="#content">Articles & Videos</a>
-            </nav>
+<!-- 1. HERO BANNER -->
+<section class="hero-section text-center py-5">
+  <h1 class="display-4 fw-bold">The Lip Sync Lab</h1>
+  <p class="lead">Deconstructing, grading, and reviewing <em>RuPaul's Drag Race</em> lip sync performances using a custom 100-Point Rubric.</p>
+  <div class="mt-3">
+    <a href="/rubric" class="btn btn-primary btn-lg m-1">Explore the 100-Pt Rubric</a>
+    <a href="/lip-syncs" class="btn btn-outline-secondary btn-lg m-1">Browse Lip Sync Archive</a>
+  </div>
+</section>
+
+<!-- 2. FEATURED LIP SYNC REVIEW -->
+<section class="featured-review my-5 p-4 border rounded shadow-sm">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <span class="badge bg-danger mb-2">Featured Lip Sync Review</span>
+      <h2 class="h3">Widow Von'Du vs. Gigi Goode</h2>
+      <p class="text-muted">"Starships" by Nicki Minaj — Season 12, Episode 1</p>
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <span class="display-6 fw-bold text-primary">94<small class="fs-6 text-muted">/100</small></span>
+        <span class="badge bg-dark">Archetype: Clash of Styles</span>
+      </div>
+      <p>A masterclass in stage control and dynamic energy. Widow's breakdown of timing and precise choreography set a high standard for Season 12 openers.</p>
+      <a href="/lip-syncs/s12e01-starships" class="btn btn-sm btn-dark">Read Full Breakdown →</a>
+    </div>
+    <div class="col-md-6 mt-3 mt-md-0">
+      <div class="ratio ratio-16x9 rounded overflow-hidden">
+        <!-- Replace YOUR_VIDEO_ID with your YouTube upload ID -->
+        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Featured Lip Sync Review" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. THE 100-POINT RUBRIC OVERVIEW -->
+<section class="rubric-overview my-5 py-4 text-center">
+  <h2 class="h3 fw-bold mb-4">How We Grade The Stage</h2>
+  <div class="row g-4">
+    <div class="col-md-3">
+      <div class="p-3 border rounded h-100">
+        <h3 class="h5">Tightness & Execution</h3>
+        <p class="display-7 fw-bold text-secondary">25 Pts</p>
+        <p class="small text-muted">Lyric accuracy, mouth articulation, mask timing, and technical clean execution.</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-3 border rounded h-100">
+        <h3 class="h5">Stage Presence & Energy</h3>
+        <p class="display-7 fw-bold text-secondary">25 Pts</p>
+        <p class="small text-muted">Commanding the floor, floorwork, spatial awareness, and audience connection.</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-3 border rounded h-100">
+        <h3 class="h5">Character & Musicality</h3>
+        <p class="display-7 fw-bold text-secondary">25 Pts</p>
+        <p class="small text-muted">EMOTION, matching beat hits, interpretation of track dynamics and genre switches.</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-3 border rounded h-100">
+        <h3 class="h5">Climax & Staging</h3>
+        <p class="display-7 fw-bold text-secondary">25 Pts</p>
+        <p class="small text-muted">Reveals, stunts, pacing build-up, and ending impact without desperate gimmicks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. RECENT REVIEWS GRID -->
+<section class="recent-reviews my-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h4 fw-bold mb-0">Recent Lip Sync Breakdowns</h2>
+    <a href="/lip-syncs" class="text-decoration-none">View All →</a>
+  </div>
+  <div class="row g-3">
+    <!-- Card 1 -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <span class="badge bg-secondary mb-2">Season 12</span>
+          <h3 class="h5 card-title">Jaida Essence Hall vs. Heidi N Closet</h3>
+          <p class="card-subtitle text-muted small mb-2">"1999" by Prince</p>
+          <div class="fw-bold text-primary mb-2">Score: 91/100</div>
+          <a href="#" class="btn btn-sm btn-outline-dark">Read Review</a>
         </div>
-    </header>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <span class="badge bg-secondary mb-2">Season 12</span>
+          <h3 class="h5 card-title">Crystal Methyd vs. Gigi Goode</h3>
+          <p class="card-subtitle text-muted small mb-2">"On the Floor" by Jennifer Lopez</p>
+          <div class="fw-bold text-primary mb-2">Score: 88/100</div>
+          <a href="#" class="btn btn-sm btn-outline-dark">Read Review</a>
+        </div>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <span class="badge bg-secondary mb-2">All Stars 5</span>
+          <h3 class="h5 card-title">Yvie Oddly vs. India Ferrah</h3>
+          <p class="card-subtitle text-muted small mb-2">"Livin' La Vida Loca" by Ricky Martin</p>
+          <div class="fw-bold text-primary mb-2">Score: 95/100</div>
+          <a href="#" class="btn btn-sm btn-outline-dark">Read Review</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <main class="main-container">
-
-        <section id="shiny-dex" class="dashboard-section">
-            <div class="section-header">
-                <h2>✨ Shiny Living Dex Journey</h2>
-                <span class="badge">Active Project: Soul Silver Mastery</span>
-            </div>
-            <div class="shiny-tracker-card">
-                <div class="progress-bar-container">
-                    <div class="progress-labels">
-                        <span>Living Dex Progress</span>
-                        <strong>152 / 1025</strong>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 14.8%;"></div>
-                    </div>
-                </div>
-                
-                <div class="current-hunts">
-                    <h3>Current Targets</h3>
-                    <div class="hunt-grid">
-                        <div class="shiny-showcase">
-                            <h2>✨ Live Tracker Counts ✨</h2>
-                            <div id="public-hunts-display">Loading live tracker data...</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="commander" class="dashboard-section">
-            <div class="section-header">
-                <h2>⚔️ The Command Zone</h2>
-                <p>Current builds and active theorycrafting for EDH.</p>
-            </div>
-            <div class="deck-grid">
-                <div class="deck-card">
-                    <div class="deck-badge active">Main Deck</div>
-                    <h3>Rin and Seri, Inseparable</h3>
-                    <p class="deck-tags">Naya • Cats & Dogs • Typal Kindred</p>
-                    <p class="deck-desc">My go-to deck. Flooding the board with tokens, gaining life, and throwing direct damage at opponents' faces.</p>
-                </div>
-                <div class="deck-card">
-                    <div class="deck-badge active">Main Deck</div>
-                    <h3>Teysa Karlov</h3>
-                    <p class="deck-tags">Orzhov • Aristocrats • Double Death</p>
-                    <p class="deck-desc">Squeezing every ounce of value out of dying creatures. If it dies, it triggers twice, and everybody bleeds.</p>
-                </div>
-                <div class="deck-card">
-                    <div class="deck-badge building">Building</div>
-                    <h3>Maralen of the Fae Ascendant</h3>
-                    <p class="deck-tags">Mono-Black • Politics • Puzzle Box</p>
-                    <p class="deck-desc">Currently brewing a unique political puzzle deck where nobody draws cards, but everyone searches. High risk, high reward.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="content" class="dashboard-section">
-            <div class="section-header">
-                <h2>📝 Latest Content & Media</h2>
-                <p>Deep dives, video essays, and scripts from my content creation journey.</p>
-            </div>
-            <div class="content-feed">
-                
-                <article class="content-card video-post">
-                    <div class="content-meta">
-                        <span class="content-type video">YouTube</span>
-                        <span class="content-date">May 2026</span>
-                    </div>
-                    <h3>Commanding the Runway: Episode 1</h3>
-                    <p class="content-excerpt">Launching my brand new series! In this video, I dive into the historic archives of RuPaul's Drag Race and pair our iconic Season 1 winner with the perfect Magic: The Gathering Commander.</p>
-                    <div class="video-placeholder">
-                        <span>▶️ Video Embed Placeholder</span>
-                    </div>
-                </article>
-
-                <article class="content-card article-post">
-                    <div class="content-meta">
-                        <span class="content-type writing">Article</span>
-                        <span class="content-date">May 2026</span>
-                    </div>
-                    <h3>The Psychology of the 1-in-8192 Shiny Hunt</h3>
-                    <p class="content-excerpt">Why do we spend hours soft-resetting retro handheld hardware for a single palette swap? Exploring the unique satisfaction of retro hunting and mastering achievements in Pokémon Soul Silver...</p>
-                    <a href="#" class="read-more">Read Full Post &rarr;</a>
-                </article>
-
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="site-footer">
-        <p>&copy; 2026 rebrandon. Built with Obsidian, GitHub Pages, and pure fixation.</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const SUPABASE_URL = "https://vhwpcjcotiilqfjatxza.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_ywYMn6iAxC_3UDDhpHhu-w_CXJzuZIe";
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        async function displayPublicHunts() {
-            const displayContainer = document.getElementById('public-hunts-display');
-            
-            const { data: savedHunts, error } = await supabaseClient
-                .from('shiny_hunts')
-                .select('*')
-                .order('id', { ascending: true });
-
-            if (error || !savedHunts || savedHunts.length === 0) {
-                displayContainer.innerHTML = '<p style="color: #888; text-align:center;">No active hunts at the moment. Check back soon!</p>';
-                return;
-            }
-
-            displayContainer.innerHTML = savedHunts.map(hunt => `
-                <div style="background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-weight: bold; color: #fff; font-size: 1.1rem;">${hunt.name}</span>
-                    <span style="background: #28a745; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-family: monospace; font-size: 1.2rem;">
-                        ${hunt.count.toLocaleString()} Encounters
-                    </span>
-                </div>
-            `).join('');
-        }
-
-        window.addEventListener('DOMContentLoaded', displayPublicHunts);
-    </script>
-</body>
-</html>
+<!-- 5. THE MULTIVERSE VAULT (SIDE PROJECTS) -->
+<section class="hobby-vault my-5 pt-4 border-top">
+  <h2 class="h5 fw-bold text-muted mb-3">The Multiverse Vault</h2>
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="p-3 bg-light rounded d-flex justify-content-between align-items-center">
+        <div>
+          <h4 class="h6 mb-1">✨ Shiny Living Dex Tracker</h4>
+          <p class="small text-muted mb-0">Tracking progress across retro and modern Pokémon games.</p>
+        </div>
+        <a href="/shiny-dex" class="btn btn-sm btn-outline-secondary">View Tracker</a>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="p-3 bg-light rounded d-flex justify-content-between align-items-center">
+        <div>
+          <h4 class="h6 mb-1">⚔️ MTG Commander Archive</h4>
+          <p class="small text-muted mb-0">Decklists, theorycrafting, and Commander builds.</p>
+        </div>
+        <a href="/mtg" class="btn btn-sm btn-outline-secondary">View Decks</a>
+      </div>
+    </div>
+  </div>
+</section>
