@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReBrandon — Shiny Pokémon Hub & Bingo</title>
+    <title>ReBrandon — Shiny Pokémon Hub</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -81,20 +81,10 @@
             50% { transform: translateY(-6px); }
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f0f18;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2a2a48;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #7c3aed;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f18; }
+        ::-webkit-scrollbar-thumb { background: #2a2a48; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-sans">
@@ -108,23 +98,22 @@
                 </div>
                 <div>
                     <h1 class="font-pixel text-lg sm:text-xl text-white tracking-wider">ReBrandon<span class="text-poke-gold">.com</span></h1>
-                    <p class="text-xs text-gray-400 font-medium">Shiny Pokémon Hunting Headquarters</p>
+                    <p class="text-xs text-gray-400 font-medium">Shiny Hunting Hub & Challenge Grid</p>
                 </div>
             </div>
 
-            <!-- Navigation Tabs -->
             <nav class="flex space-x-1 sm:space-x-2 bg-poke-card/80 p-1.5 rounded-xl border border-poke-border">
                 <button onclick="switchTab('bingo')" id="nav-bingo" class="nav-btn active px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 bg-poke-accent text-white shadow-md">
                     <i class="fa-solid fa-grid-2"></i>
                     <span>Bingo Race</span>
                 </button>
-                <button onclick="switchTab('counter')" id="nav-counter" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 text-gray-400 hover:text-white transition">
-                    <i class="fa-solid fa-calculator"></i>
-                    <span>Encounter Counter</span>
-                </button>
-                <button onclick="switchTab('collection')" id="nav-collection" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 text-gray-400 hover:text-white transition">
+                <button onclick="switchTab('vault')" id="nav-vault" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 text-gray-400 hover:text-white transition">
                     <i class="fa-solid fa-trophy"></i>
                     <span>Shiny Vault</span>
+                </button>
+                <button onclick="switchTab('targets')" id="nav-targets" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 text-gray-400 hover:text-white transition">
+                    <i class="fa-solid fa-crosshairs"></i>
+                    <span>Active Hunts</span>
                 </button>
             </nav>
         </div>
@@ -133,124 +122,135 @@
     <!-- Main Content Area -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        <!-- ================= SECTION 1: BINGO GENERATOR & TRACKER ================= -->
+        <!-- ================= SECTION 1: SHINY BINGO ================= -->
         <section id="section-bingo" class="space-y-6">
-            <!-- Controls Bar -->
             <div class="bg-poke-card border border-poke-border rounded-2xl p-6 card-glow flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-                    <label class="text-xs uppercase tracking-wider text-gray-400 font-bold">Seed:</label>
-                    <div class="flex items-center w-full sm:w-auto">
-                        <input type="text" id="seedInput" value="REBRANDON-2026" class="bg-poke-dark border border-poke-border text-poke-gold font-mono px-4 py-2 rounded-l-xl focus:outline-none focus:border-poke-accent w-full sm:w-48 text-sm">
-                        <button onclick="generateBoardFromSeed()" class="bg-poke-accent hover:bg-poke-accent/80 px-4 py-2 rounded-r-xl text-white font-semibold text-sm transition">
-                            <i class="fa-solid fa-arrows-rotate"></i>
-                        </button>
-                    </div>
-                    <button onclick="randomizeSeed()" class="bg-poke-dark hover:bg-poke-border border border-poke-border px-3 py-2 rounded-xl text-xs font-semibold text-gray-300 transition">
-                        Random
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs uppercase tracking-wider text-gray-400 font-bold">Seed:</span>
+                    <input type="text" id="seedInput" value="REBRANDON-2026" class="bg-poke-dark border border-poke-border text-poke-gold font-mono px-4 py-2 rounded-xl text-sm focus:outline-none w-48">
+                    <button onclick="generateBoardFromSeed()" class="bg-poke-accent hover:bg-poke-accent/80 px-4 py-2 rounded-xl text-white font-semibold text-sm transition">
+                        <i class="fa-solid fa-arrows-rotate mr-1"></i> Roll Board
                     </button>
                 </div>
 
-                <div class="flex items-center space-x-3 w-full md:w-auto justify-end">
-                    <button onclick="resetCurrentBoard()" class="px-4 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 text-sm font-semibold transition">
-                        <i class="fa-solid fa-rotate-left mr-1.5"></i> Clear Marks
+                <div class="flex items-center space-x-3">
+                    <button onclick="resetBoardMarks()" class="px-4 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 text-sm font-semibold transition">
+                        Clear Marks
                     </button>
                     <button onclick="exportToObsidian()" class="px-4 py-2 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 text-sm font-semibold transition">
-                        <i class="fa-solid fa-file-export mr-1.5"></i> Obsidian Export
+                        Copy Obsidian Markdown
                     </button>
                 </div>
             </div>
 
-            <!-- Bingo Board Grid -->
-            <div id="bingoGrid" class="grid grid-cols-5 gap-3 sm:gap-4 max-w-4xl mx-auto">
-                <!-- Grid items generated dynamically by JavaScript -->
-            </div>
+            <!-- Bingo Board -->
+            <div id="bingoGrid" class="grid grid-cols-5 gap-3 sm:gap-4 max-w-4xl mx-auto"></div>
 
-            <!-- Board Stats & Win Banner -->
             <div id="winBanner" class="hidden bg-gradient-to-r from-poke-gold/20 via-poke-pink/20 to-poke-accent/20 border-2 border-poke-gold rounded-2xl p-6 text-center max-w-2xl mx-auto card-glow">
                 <i class="fa-solid fa-crown text-4xl text-poke-gold mb-2 gold-glow"></i>
                 <h2 class="font-pixel text-xl text-poke-gold mb-1">BINGO COMPLETED!</h2>
-                <p class="text-gray-300 text-sm">Congratulations on finishing your shiny hunt bingo run!</p>
+                <p class="text-gray-300 text-sm">Line cleared! Ready for the next card?</p>
             </div>
         </section>
 
 
-        <!-- ================= SECTION 2: ENCOUNTER COUNTER ================= -->
-        <section id="section-counter" class="hidden space-y-6 max-w-3xl mx-auto">
-            <div class="bg-poke-card border border-poke-border rounded-2xl p-8 card-glow text-center space-y-6">
-                <!-- Active Hunt Target -->
-                <div class="flex items-center justify-center space-x-4">
-                    <img id="counterSprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/384.png" alt="Rayquaza" class="w-28 h-28 bounce-sprite drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]">
-                    <div class="text-left">
-                        <span id="counterMethod" class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-poke-accent/30 text-poke-sparkle border border-poke-accent/50 mb-1">Soft Reset (1/4096)</span>
-                        <h2 id="counterTargetName" class="text-3xl font-bold text-white">Rayquaza</h2>
-                        <p class="text-sm text-gray-400">Targeting: Ultra Space Wilds</p>
+        <!-- ================= SECTION 2: CURATED SHINY VAULT ================= -->
+        <section id="section-vault" class="hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-poke-border/60 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">ReBrandon's Shiny Vault</h2>
+                    <p class="text-sm text-gray-400">Curated showcase of top confirmed shiny catches.</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-xs uppercase text-gray-400 font-bold block">Trophy Count</span>
+                    <span class="font-pixel text-poke-gold text-lg">12 / 1025</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Trophy 1 -->
+                <div class="bg-poke-card border border-poke-border rounded-2xl p-4 card-glow relative overflow-hidden group">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/384.png" class="w-20 h-20 bounce-sprite">
+                        <div>
+                            <span class="text-xs font-bold text-poke-gold uppercase tracking-wider">#0384</span>
+                            <h3 class="font-bold text-lg text-white">Rayquaza</h3>
+                            <p class="text-xs text-gray-400">Luxury Ball • Gen 7</p>
+                            <span class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30">Ultra Space (Soft Reset)</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Big Count Display -->
-                <div class="bg-poke-dark border border-poke-border rounded-2xl p-8 max-w-md mx-auto relative">
-                    <span class="text-xs uppercase tracking-widest text-gray-400 font-bold block mb-1">Total Encounters</span>
-                    <span id="encounterCountDisplay" class="font-pixel text-5xl sm:text-6xl text-poke-gold gold-glow">0</span>
-                </div>
-
-                <!-- Controls -->
-                <div class="flex items-center justify-center gap-4">
-                    <button onclick="changeCounter(-1)" class="w-16 h-16 rounded-2xl bg-poke-dark hover:bg-poke-border border border-poke-border text-2xl text-red-400 font-bold flex items-center justify-center transition active:scale-95">
-                        <i class="fa-solid fa-minus"></i>
-                    </button>
-                    <button onclick="changeCounter(1)" class="flex-grow max-w-xs h-16 rounded-2xl bg-gradient-to-r from-poke-accent to-poke-pink hover:opacity-90 text-white font-bold text-xl shadow-lg shadow-poke-accent/40 flex items-center justify-center space-x-2 transition active:scale-95">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>+1 ENCOUNTER</span>
-                    </button>
-                    <button onclick="changeCounter(10)" class="w-16 h-16 rounded-2xl bg-poke-dark hover:bg-poke-border border border-poke-border text-lg text-poke-gold font-bold flex items-center justify-center transition active:scale-95">
-                        +10
-                    </button>
-                </div>
-
-                <p class="text-xs text-gray-500"><i class="fa-solid fa-keyboard mr-1"></i> Hotkeys: <kbd class="px-2 py-0.5 bg-poke-dark border border-poke-border rounded text-gray-300">Space</kbd> to add +1 | <kbd class="px-2 py-0.5 bg-poke-dark border border-poke-border rounded text-gray-300">Shift + Space</kbd> to subtract</p>
-            </div>
-        </section>
-
-
-        <!-- ================= SECTION 3: SHINY VAULT ================= -->
-        <section id="section-collection" class="hidden space-y-6">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="text-2xl font-bold text-white">Shiny Collection Vault</h2>
-                    <p class="text-sm text-gray-400">Log and showcase all your confirmed shiny catches.</p>
-                </div>
-                <button onclick="addNewShinyPrompt()" class="bg-poke-accent hover:bg-poke-accent/80 text-white font-semibold px-4 py-2 rounded-xl text-sm transition flex items-center space-x-2">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Log New Shiny</span>
-                </button>
-            </div>
-
-            <!-- Vault Cards Grid -->
-            <div id="vaultGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <!-- Example Card 1 -->
+                <!-- Trophy 2 -->
                 <div class="bg-poke-card border border-poke-border rounded-2xl p-4 card-glow relative overflow-hidden group">
-                    <div class="absolute -top-6 -right-6 w-24 h-24 bg-poke-gold/10 rounded-full blur-xl group-hover:bg-poke-gold/20 transition"></div>
                     <div class="flex items-center space-x-4">
                         <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/6.png" class="w-20 h-20 bounce-sprite">
                         <div>
                             <span class="text-xs font-bold text-poke-gold uppercase tracking-wider">#0006</span>
                             <h3 class="font-bold text-lg text-white">Charizard</h3>
-                            <p class="text-xs text-gray-400">Luxury Ball • Gen 9</p>
-                            <span class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30">Masuda Method</span>
+                            <p class="text-xs text-gray-400">Moon Ball • Gen 9</p>
+                            <span class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30">Masuda Method</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Example Card 2 -->
+                <!-- Trophy 3 -->
                 <div class="bg-poke-card border border-poke-border rounded-2xl p-4 card-glow relative overflow-hidden group">
-                    <div class="absolute -top-6 -right-6 w-24 h-24 bg-poke-pink/10 rounded-full blur-xl group-hover:bg-poke-pink/20 transition"></div>
                     <div class="flex items-center space-x-4">
                         <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/197.png" class="w-20 h-20 bounce-sprite">
                         <div>
                             <span class="text-xs font-bold text-poke-gold uppercase tracking-wider">#0197</span>
                             <h3 class="font-bold text-lg text-white">Umbreon</h3>
-                            <p class="text-xs text-gray-400">Moon Ball • Gen 8</p>
-                            <span class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30">Outbreak Hunt</span>
+                            <p class="text-xs text-gray-400">Dive Ball • Gen 9</p>
+                            <span class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Mass Outbreak</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trophy 4 -->
+                <div class="bg-poke-card border border-poke-border rounded-2xl p-4 card-glow relative overflow-hidden group">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/959.png" class="w-20 h-20 bounce-sprite">
+                        <div>
+                            <span class="text-xs font-bold text-poke-gold uppercase tracking-wider">#0959</span>
+                            <h3 class="font-bold text-lg text-white">Tinkaton</h3>
+                            <p class="text-xs text-gray-400">Love Ball • Gen 9</p>
+                            <span class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-pink-500/20 text-pink-300 border border-pink-500/30">Sparkling Sandwich</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 3: ACTIVE TARGETS ================= -->
+        <section id="section-targets" class="hidden space-y-6">
+            <div class="border-b border-poke-border/60 pb-4">
+                <h2 class="text-2xl font-bold text-white">Current Active Hunts</h2>
+                <p class="text-sm text-gray-400">Current targets and preferred game/method pairings.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-poke-card border border-poke-border rounded-2xl p-6 card-glow flex items-center space-x-6">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/658.png" class="w-24 h-24 bounce-sprite drop-shadow-[0_0_15px_rgba(124,58,237,0.4)]">
+                    <div class="space-y-1">
+                        <span class="text-xs font-bold text-poke-gold uppercase tracking-widest">Priority Target</span>
+                        <h3 class="text-2xl font-bold text-white">Greninja</h3>
+                        <p class="text-xs text-gray-400">Targeting Lure Ball • Masuda Breed (1/512)</p>
+                        <div class="pt-2 flex items-center space-x-2">
+                            <span class="px-2 py-1 rounded text-[10px] font-semibold bg-poke-dark border border-poke-border text-gray-300">Pokémon Scarlet</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-poke-card border border-poke-border rounded-2xl p-6 card-glow flex items-center space-x-6">
+                    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/250.png" class="w-24 h-24 bounce-sprite drop-shadow-[0_0_15px_rgba(255,215,0,0.4)]">
+                    <div class="space-y-1">
+                        <span class="text-xs font-bold text-poke-gold uppercase tracking-widest">Priority Target</span>
+                        <h3 class="text-2xl font-bold text-white">Ho-Oh</h3>
+                        <p class="text-xs text-gray-400">Targeting Level Ball • Soft Reset (1/4096)</p>
+                        <div class="pt-2 flex items-center space-x-2">
+                            <span class="px-2 py-1 rounded text-[10px] font-semibold bg-poke-dark border border-poke-border text-gray-300">HeartGold (DS)</span>
                         </div>
                     </div>
                 </div>
@@ -259,17 +259,13 @@
 
     </main>
 
-    <!-- Footer -->
     <footer class="border-t border-poke-border/60 bg-poke-dark py-6 mt-auto">
         <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-500 space-y-2">
-            <p>© 2026 ReBrandon.com — Built for Shiny Pokémon Hunters.</p>
-            <p class="text-gray-600">Pokémon is © Nintendo, Creatures Inc., & GAME FREAK. Sprites served via PokéAPI.</p>
+            <p>© 2026 ReBrandon.com — Shiny Pokémon Hunting Headquarters.</p>
         </div>
     </footer>
 
-    <!-- JavaScript Logic -->
     <script>
-        // Challenge Pool for Bingo Generator
         const challengePool = [
             { text: "Catch a Female Shiny", icon: "fa-venus" },
             { text: "Catch a Shiny Rayquaza", sprite: 384 },
@@ -288,30 +284,22 @@
             { text: "Catch a Shiny Gyarados", sprite: 130 },
             { text: "Catch a Shiny in a Beast Ball", icon: "fa-atom" },
             { text: "Catch a Shiny Mimikyu", sprite: 778 },
-            { text: "Catch a Shiny Green Palette Pokémon", icon: "fa-palette" },
+            { text: "Catch a Green Palette Shiny", icon: "fa-palette" },
             { text: "Catch a Shiny Sylveon", sprite: 700 },
-            { text: "Catch a Shiny using Sandwich Power", icon: "fa-burger" },
+            { text: "Catch a Shiny via Sandwich", icon: "fa-burger" },
             { text: "Catch a Shiny Pawmi", sprite: 921 },
-            { text: "Catch a Shiny from a Tera Raid", icon: "fa-bolt" },
+            { text: "Catch a Shiny Tera Raid", icon: "fa-bolt" },
             { text: "Catch a Shiny Gengar", sprite: 94 },
-            { text: "Catch a Shiny via SOS or Radar Chain", icon: "fa-link" },
+            { text: "Catch a Shiny SOS/Radar", icon: "fa-link" },
             { text: "Catch a Shiny Koraidon / Miraidon", sprite: 1007 }
         ];
 
-        let boardState = Array(25).fill(false);
+        let boardMarks = Array(25).fill(false);
         let currentBoardData = [];
-
-        // Simple Seeded Randomizer
-        function seededRandom(seed) {
-            let x = Math.sin(seed++) * 10000;
-            return x - Math.floor(x);
-        }
 
         function stringToSeed(str) {
             let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                hash = str.charCodeAt(i) + ((hash << 5) - hash);
-            }
+            for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
             return Math.abs(hash);
         }
 
@@ -319,24 +307,17 @@
             const seedStr = document.getElementById('seedInput').value || 'REBRANDON';
             let seed = stringToSeed(seedStr);
             
-            // Shuffle Pool
             let pool = [...challengePool];
             let shuffled = [];
             
             for (let i = 0; i < 25; i++) {
-                let randomIndex = Math.floor(seededRandom(seed++) * pool.length);
+                let randomIndex = Math.floor((Math.sin(seed++) * 10000 % 1 + 1) % 1 * pool.length);
                 shuffled.push(pool.splice(randomIndex, 1)[0] || challengePool[i % challengePool.length]);
             }
 
             currentBoardData = shuffled;
-            boardState = Array(25).fill(false);
+            boardMarks = Array(25).fill(false);
             renderBoard();
-        }
-
-        function randomizeSeed() {
-            const randomSeed = "SHINY-" + Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('seedInput').value = randomSeed;
-            generateBoardFromSeed();
         }
 
         function renderBoard() {
@@ -344,91 +325,66 @@
             grid.innerHTML = '';
 
             currentBoardData.forEach((item, index) => {
-                const isCompleted = boardState[index];
+                const isMarked = boardMarks[index];
                 const tile = document.createElement('div');
-                tile.className = `bingo-tile cursor-pointer select-none bg-poke-card border border-poke-border rounded-xl p-3 sm:p-4 flex flex-col items-center justify-center text-center min-h-[110px] relative overflow-hidden ${isCompleted ? 'completed' : ''}`;
-                tile.onclick = () => toggleTile(index);
+                tile.className = `bingo-tile cursor-pointer select-none bg-poke-card border border-poke-border rounded-xl p-3 flex flex-col items-center justify-center text-center min-h-[110px] relative ${isMarked ? 'completed' : ''}`;
+                tile.onclick = () => {
+                    boardMarks[index] = !boardMarks[index];
+                    renderBoard();
+                };
 
-                let visualContent = '';
-                if (item.sprite) {
-                    visualContent = `<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${item.sprite}.png" class="w-12 h-12 mb-1 bounce-sprite drop-shadow">`;
-                } else if (item.icon) {
-                    visualContent = `<i class="fa-solid ${item.icon} text-xl text-poke-gold mb-2"></i>`;
-                }
+                let visual = item.sprite 
+                    ? `<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/${item.sprite}.png" class="w-12 h-12 mb-1 bounce-sprite">`
+                    : `<i class="fa-solid ${item.icon} text-xl text-poke-gold mb-2"></i>`;
 
                 tile.innerHTML = `
-                    ${visualContent}
-                    <span class="text-xs sm:text-sm font-medium text-gray-200 line-clamp-2">${item.text}</span>
-                    ${isCompleted ? '<div class="absolute top-1 right-1 text-poke-gold text-xs"><i class="fa-solid fa-circle-check"></i></div>' : ''}
+                    ${visual}
+                    <span class="text-xs font-medium text-gray-200">${item.text}</span>
+                    ${isMarked ? '<div class="absolute top-1 right-1 text-poke-gold text-xs"><i class="fa-solid fa-circle-check"></i></div>' : ''}
                 `;
-
                 grid.appendChild(tile);
             });
 
-            checkWinCondition();
+            checkWin();
         }
 
-        function toggleTile(index) {
-            boardState[index] = !boardState[index];
-            renderBoard();
-        }
-
-        function resetCurrentBoard() {
-            boardState = Array(25).fill(false);
-            renderBoard();
-        }
-
-        function checkWinCondition() {
-            // Winning lines
+        function checkWin() {
             const lines = [
-                [0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14], [15,16,17,18,19], [20,21,22,23,24], // Rows
-                [0,5,10,15,20], [1,6,11,16,21], [2,7,12,17,22], [3,8,13,18,23], [4,9,14,19,24], // Columns
-                [0,6,12,18,24], [4,8,12,16,20] // Diagonals
+                [0,1,2,3,4], [5,6,7,8,9], [10,11,12,13,14], [15,16,17,18,19], [20,21,22,23,24],
+                [0,5,10,15,20], [1,6,11,16,21], [2,7,12,17,22], [3,8,13,18,23], [4,9,14,19,24],
+                [0,6,12,18,24], [4,8,12,16,20]
             ];
+            const win = lines.some(line => line.every(idx => boardMarks[idx]));
+            document.getElementById('winBanner').classList.toggle('hidden', !win);
+        }
 
-            const isWin = lines.some(line => line.every(idx => boardState[idx]));
-            document.getElementById('winBanner').classList.toggle('hidden', !isWin);
+        function resetBoardMarks() {
+            boardMarks = Array(25).fill(false);
+            renderBoard();
         }
 
         function exportToObsidian() {
-            let markdown = `# 🎯 Shiny Pokémon Bingo Board (${document.getElementById('seedInput').value})\n\n`;
-            for (let i = 0; i < 25; i++) {
-                const checked = boardState[i] ? 'x' : ' ';
-                markdown += `- [${checked}] ${currentBoardData[i].text}\n`;
-            }
-            navigator.clipboard.writeText(markdown);
-            alert('Copied Markdown task list to clipboard for Obsidian!');
+            let md = `# Shiny Bingo Board (${document.getElementById('seedInput').value})\n\n`;
+            currentBoardData.forEach((item, i) => {
+                md += `- [${boardMarks[i] ? 'x' : ' '}] ${item.text}\n`;
+            });
+            navigator.clipboard.writeText(md);
+            alert('Copied Markdown grid to clipboard!');
         }
 
-        // Section Switcher
         function switchTab(tab) {
-            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-poke-accent', 'text-white', 'shadow-md');
-                btn.classList.add('text-gray-400');
+            document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('bg-poke-accent', 'text-white', 'shadow-md');
+                b.classList.add('text-gray-400');
             });
 
             document.getElementById(`section-${tab}`).classList.remove('hidden');
-            const activeBtn = document.getElementById(`nav-${tab}`);
-            activeBtn.classList.add('bg-poke-accent', 'text-white', 'shadow-md');
-            activeBtn.classList.remove('text-gray-400');
+            const active = document.getElementById(`nav-${tab}`);
+            active.classList.add('bg-poke-accent', 'text-white', 'shadow-md');
+            active.classList.remove('text-gray-400');
         }
 
-        // Encounter Counter Logic
-        let count = 0;
-        function changeCounter(val) {
-            count = Math.max(0, count + val);
-            document.getElementById('encounterCountDisplay').textContent = count;
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' && !document.getElementById('section-counter').classList.contains('hidden')) {
-                e.preventDefault();
-                changeCounter(e.shiftKey ? -1 : 1);
-            }
-        });
-
-        // Initialize Board on Page Load
         generateBoardFromSeed();
     </script>
 </body>
